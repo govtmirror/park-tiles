@@ -10,7 +10,7 @@
   from nps_boundary
 ) as data
 
--- NPS Boundary Lable (point)
+-- NPS Boundary Label (point)
 
 ( select unit_name as name, parkname, geom_point,
     log(area)/log(10) as size,
