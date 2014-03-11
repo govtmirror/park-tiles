@@ -9,10 +9,7 @@ tbl_wsd_parks_poly=wsd_polys
 tbl_wsd_parks_points=wsd_points
 tbl_aggregated=npmap_all_parks
 
-psql_conn="psql
-    --dbname=nps_$DATABASE_NAME
-    --username=postgres
-    --host=localhost"
+psql_conn="host=localhost user=postgres password=postgres dbname=$DATABASE_NAME"
 
 # Convert the SQlite File
 echo "******** Convert the SQlite File ********"
