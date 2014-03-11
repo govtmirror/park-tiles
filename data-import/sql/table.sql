@@ -1,4 +1,5 @@
-SELECT irma_wsd.geom                                  AS the_geom,
+SELECT irma_wsd.poly_geom                                  AS poly_geom,
+irma_wsd.point_geom                                  AS point_geom,
        Coalesce(irma_wsd.unit_code, park_attrs.alpha) AS unit_code,
        park_attrs.pointtopol,
        park_attrs.designation,
@@ -39,11 +40,14 @@ FROM   (SELECT alpha,
                   display_address,
                   display_phone,
                   display_climate) AS park_attrs
-       full outer join (SELECT
-                       --irma.unit_code,
-                       --wsd.unit_code,
-                       --irma.wkb_geometry as irma_geom,
-                       --wsd.wkb_geometry as wsd_geom,
+       full outer join (
+       SELECT
+         Coalesce(poly.unit_code, point.unit_code) as unit_code,
+         poly.geom as poly_geom,
+         point.wkb_geometry as point_geom
+       FROM
+         wsd_points AS point FULL OUTER JOIN
+       (SELECT
                        Coalesce(wsd.unit_code, irma.unit_code)       AS
                        unit_code,
                        Coalesce(wsd.wkb_geometry, irma.wkb_geometry) AS geom
@@ -57,5 +61,8 @@ FROM   (SELECT alpha,
        wkb_geometry
                 FROM   wsd_polys
                 GROUP  BY wsd_polys.unit_code) AS wsd
-            ON irma.unit_code = wsd.unit_code) AS irma_wsd
-                    ON park_attrs.alpha = irma_wsd.unit_code;
+            ON irma.unit_code = wsd.unit_code) AS poly ON point.unit_code = poly.unit_code) AS irma_wsd
+                    ON park_attrs.alpha = irma_wsd.unit_code
+       WHERE
+         display_designation != 'National Historic Trail' AND
+         display_designation != 'National Scenic Trail';
