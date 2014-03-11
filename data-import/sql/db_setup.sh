@@ -44,7 +44,7 @@ sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_wsd_parks_poly_gis
 echo "Table $tbl_wsd_parks_poly created"
 
 echo "******** Add the wsd-all-parks (points) ********"
-ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/WSD_Parks/WSDParks.gdb "ZoomLevel13Points" -nln $tbl_wsd_parks_points -t_srs EPSG:3857
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/WSD_Parks/WSDParks.gdb "ZoomLevel4Points" -nln $tbl_wsd_parks_points -t_srs EPSG:3857
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_wsd_parks_points_gist ON $tbl_wsd_parks_points USING GIST (wkb_geometry);"
 echo "Table $tbl_wsd_parks_points created"
 
