@@ -7,7 +7,7 @@ tbl_nps_regions=nps_regions
 tbl_nps_boundary=irma_nps_boundaries
 tbl_wsd_parks_poly=wsd_polys
 tbl_wsd_parks_points=wsd_points
-tbl_aggregated=all_parks
+tbl_aggregated=npmap_all_parks
 
 # Convert the SQlite File
 echo "******** Convert the SQlite File ********"
@@ -25,11 +25,12 @@ sudo -u postgres createlang -d $DATABASE_NAME plpgsql
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE EXTENSION postgis;"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE EXTENSION postgis_topology;"
 
-# Add the SQlite File
-echo "******** Add the SQlite File ********"
+# Add the Park Attributes File
+echo "******** Add the Park Attributes File ********"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_park_attributes (alphacode varchar, pointtopol smallint, alpha char(4), designation varchar, name varchar, display_name varchar, display_designation varchar, display_concatenated varchar, display_state varchar, display_blurb varchar, display_url varchar, display_address varchar, display_phone varchar, display_climate varchar);"
 sudo -u postgres psql -d $DATABASE_NAME -c "COPY $tbl_park_attributes FROM '`pwd`/../data/Park_Attributes_utf8.csv' DELIMITER ',' CSV HEADER;"
 rm ../data/Park_Attributes_utf8.csv
+echo "Table $tbl_aggregated created"
 
 # There's a weird UTF error with one record
 #sudo -u postgres psql -d $DATABASE_NAME -c "UPDATE park_attributes SET display_climate = regexp_replace(display_climate, 'â' || U&'\0080' || U&'\0099', '&deg;', 'g') WHERE display_climate like '%â' || U&'\0080' || U&'\0099' || '%';"
