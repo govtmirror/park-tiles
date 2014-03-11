@@ -61,6 +61,3 @@ echo "Table $tbl_nps_boundary created"
 echo "******** Add the aggregated table ********"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_aggregated AS `cat $file_tbl_aggregated`"
 echo "Table $tbl_aggregated created"
-
-echo "******** Adding a combined SEQU and KICA point SEKI ********"
-
