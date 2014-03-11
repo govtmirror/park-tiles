@@ -71,4 +71,5 @@ FROM   (SELECT alpha,
                     ON park_attrs.alpha = irma_wsd.unit_code
        WHERE
          display_designation != 'National Historic Trail' AND
-         display_designation != 'National Scenic Trail';
+         display_designation != 'National Scenic Trail' AND
+         unit_code != 'SEKI';
