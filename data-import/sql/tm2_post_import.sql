@@ -38,23 +38,24 @@ $func$;
 --
 -- prepare a new table; the data will by dynamically joined in the final query
 CREATE TABLE npmap_all_parks_inset (
-    join_gid integer, zoomlevel integer, geom geometry(multipolygon,3857)
+    unit_code char(4), zoomlevel integer, geom geometry(multipolygon,3857)
 );
 
 -- insert inset poly_geometries to new table from main boundary table
-insert into npmap_all_parks_inset (select gid, 8,  st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^8)  * -2))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
-insert into npmap_all_parks_inset (select gid, 9,  st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^9)  * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
-insert into npmap_all_parks_inset (select gid, 10, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^10) * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
-insert into npmap_all_parks_inset (select gid, 11, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^11) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
-insert into npmap_all_parks_inset (select gid, 12, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^12) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
-insert into npmap_all_parks_inset (select gid, 13, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^13) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
-insert into npmap_all_parks_inset (select gid, 14, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^14) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
-insert into npmap_all_parks_inset (select gid, 15, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^15) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 8,  st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^8)  * -2))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 9,  st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^9)  * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 10, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^10) * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 11, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^11) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 12, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^12) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 13, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^13) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 14, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^14) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 15, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^15) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
 
-insert into npmap_all_parks_inset (select gid, 13, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^13) * -2))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
-insert into npmap_all_parks_inset (select gid, 14, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^14) * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
-insert into npmap_all_parks_inset (select gid, 15, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^15) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 13, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^13) * -2))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 14, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^14) * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
+INSERT INTO npmap_all_parks_inset (SELECT unit_code, 15, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^15) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
 
 -- add indexes to new table
-create index npmap_all_parks_inset_join_gis on npmap_all_parks_inset (join_gid);
-create index npmap_all_parks_inset_zoomlevel on npmap_all_parks_inset (zoomlevel);
+ALTER TABLE npmap_all_parks_inset ADD CONSTRAINT npmap_all_parks_inset_pk PRIMARY KEY (unit_code);
+CREATE INDEX npmap_all_parks_inset_join_gis ON npmap_all_parks_inset (unit_code);
+CREATE INDEX npmap_all_parks_inset_zoomlevel ON npmap_all_parks_inset (zoomlevel);
