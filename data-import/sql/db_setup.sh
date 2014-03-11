@@ -1,5 +1,7 @@
 DATABASE_NAME=data_import
 
+file_tbl_aggregated="./npmap_all_parks.sql"
+file_tbl_aggregated_updates="./npmap_all_parks_updates.sql"
 tbl_park_attributes=park_attributes
 tbl_nps_regions=nps_regions
 tbl_nps_boundary=irma_nps_boundaries
@@ -55,12 +57,10 @@ ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbnam
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_nps_boundary_gist ON $tbl_nps_boundary USING GIST (wkb_geometry);"
 echo "Table $tbl_nps_boundary created"
 
-# Add the nps_boundary
-echo "******** Add the nps_boundary ********"
-ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/nps_boundary/nps_boundary.shp -nln $tbl_nps_boundary -nlt MULTIPOLYGON -t_srs EPSG:3857
-sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_nps_boundary_gist ON $tbl_nps_boundary USING GIST (wkb_geometry);"
-echo "Table $tbl_nps_boundary created"
-
 # Add the aggregated table
 echo "******** Add the aggregated table ********"
-1 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_aggregated AS `cat ./table.sql`"
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_aggregated AS `cat $file_tbl_aggregated`"
+echo "Table $tbl_aggregated created"
+
+echo "******** Adding a combined SEQU and KICA point SEKI ********"
+
