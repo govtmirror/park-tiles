@@ -5,6 +5,7 @@ tbl_nps_regions=nps_regions
 tbl_nps_boundary=irma_nps_boundaries
 tbl_wsd_parks_poly=wsd_polys
 tbl_wsd_parks_points=wsd_points
+tbl_aggregated=all_parks
 
 # Convert the SQlite File
 echo "******** Convert the SQlite File ********"
@@ -53,3 +54,13 @@ echo "******** Add the nps_boundary ********"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/nps_boundary/nps_boundary.shp -nln $tbl_nps_boundary -nlt MULTIPOLYGON -t_srs EPSG:3857
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_nps_boundary_gist ON $tbl_nps_boundary USING GIST (wkb_geometry);"
 echo "Table $tbl_nps_boundary created"
+
+# Add the nps_boundary
+echo "******** Add the nps_boundary ********"
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/nps_boundary/nps_boundary.shp -nln $tbl_nps_boundary -nlt MULTIPOLYGON -t_srs EPSG:3857
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_nps_boundary_gist ON $tbl_nps_boundary USING GIST (wkb_geometry);"
+echo "Table $tbl_nps_boundary created"
+
+# Add the aggregated table
+echo "******** Add the aggregated table ********"
+1 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_aggregated AS `cat ./table.sql`"
