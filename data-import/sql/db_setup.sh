@@ -3,7 +3,8 @@ DATABASE_NAME=data_import
 tbl_park_attributes=park_attributes
 tbl_nps_regions=nps_regions
 tbl_nps_boundary=irma_nps_boundaries
-tbl_wsd_parks=wsd_polys
+tbl_wsd_parks_poly=wsd_polys
+tbl_wsd_parks_points=wsd_points
 
 # Convert the SQlite File
 echo "******** Convert the SQlite File ********"
@@ -33,17 +34,22 @@ rm ../data/Park_Attributes_utf8.csv
 # Add the regions geojson file
 echo "******** Add the regions geojson file ********"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/nps-regions.geojson -nln $tbl_nps_regions -nlt MULTIPOLYGON -t_srs EPSG:3857
-sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX nps_regions_gist ON $tbl_nps_regions USING GIST (wkb_geometry);"
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_nps_regions_gist ON $tbl_nps_regions USING GIST (wkb_geometry);"
 echo "Table $tbl_nps_regions created"
 
 # Add the wsd-all-parks
-echo "******** Add the wsd-all-parks ********"
-ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/WSD_Parks/WSDParks.gdb "ZoomLevel13Polys" -nln $tbl_wsd_parks -t_srs EPSG:3857
-sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX wsd_polys_gist ON $tbl_wsd_parks USING GIST (wkb_geometry);"
-echo "Table $tbl_wsd_parks created"
+echo "******** Add the wsd-all-parks (polys) ********"
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/WSD_Parks/WSDParks.gdb "ZoomLevel13Polys" -nln $tbl_wsd_parks_poly -t_srs EPSG:3857
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_wsd_parks_poly_gist ON $tbl_wsd_parks_poly USING GIST (wkb_geometry);"
+echo "Table $tbl_wsd_parks_poly created"
+
+echo "******** Add the wsd-all-parks (points) ********"
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/WSD_Parks/WSDParks.gdb "ZoomLevel13Points" -nln $tbl_wsd_parks_points -t_srs EPSG:3857
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_wsd_parks_points_gist ON $tbl_wsd_parks_points USING GIST (wkb_geometry);"
+echo "Table $tbl_wsd_parks_points created"
 
 # Add the nps_boundary
 echo "******** Add the nps_boundary ********"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/nps_boundary/nps_boundary.shp -nln $tbl_nps_boundary -nlt MULTIPOLYGON -t_srs EPSG:3857
-sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX irma_nps_boundaries_gist ON $tbl_nps_boundary USING GIST (wkb_geometry);"
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX $tbl_nps_boundary_gist ON $tbl_nps_boundary USING GIST (wkb_geometry);"
 echo "Table $tbl_nps_boundary created"
