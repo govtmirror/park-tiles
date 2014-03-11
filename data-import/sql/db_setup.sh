@@ -1,6 +1,12 @@
 DATABASE_NAME=data_import
 
+tbl_park_attributes=park_attributes
+tbl_nps_regions=nps_regions
+tbl_nps_boundary=irma_nps_boundaries
+tbl_wsd_parks=wsd_polys
+
 # Convert the SQlite File
+echo "******** Convert the SQlite File ********"
 rm -f ../data/Park_Attributes.csv
 ogr2ogr -f "CSV" ../data/Park_Attributes.csv ../data/Park_Attributes.sqlite
 rm -f ../data/Park_Attributes_utf8.csv
@@ -8,6 +14,7 @@ iconv -f iso-8859-1 -t utf-8 ../data/Park_Attributes.csv > ../data/Park_Attribut
 rm ../data/Park_Attributes.csv
 
 # Create the Database
+echo "******** Create the Database ********"
 sudo -u postgres dropdb $DATABASE_NAME
 sudo -u postgres createdb -E UTF8 $DATABASE_NAME
 sudo -u postgres createlang -d $DATABASE_NAME plpgsql
@@ -15,20 +22,28 @@ sudo -u postgres psql -d $DATABASE_NAME -c "CREATE EXTENSION postgis;"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE EXTENSION postgis_topology;"
 
 # Add the SQlite File
-sudo -u postgres psql -d $DATABASE_NAME -c 'CREATE TABLE park_attributes (alphacode varchar, pointtopol smallint, alpha char(4), designation varchar, name varchar, display_name varchar, display_designation varchar, display_concatenated varchar, display_state varchar, display_blurb varchar, display_url varchar, display_address varchar, display_phone varchar, display_climate varchar);'
-sudo -u postgres psql -d $DATABASE_NAME -c "COPY park_attributes FROM '`pwd`/../data/Park_Attributes_utf8.csv' DELIMITER ',' CSV HEADER;"
+echo "******** Add the SQlite File ********"
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_park_attributes (alphacode varchar, pointtopol smallint, alpha char(4), designation varchar, name varchar, display_name varchar, display_designation varchar, display_concatenated varchar, display_state varchar, display_blurb varchar, display_url varchar, display_address varchar, display_phone varchar, display_climate varchar);"
+sudo -u postgres psql -d $DATABASE_NAME -c "COPY $tbl_park_attributes FROM '`pwd`/../data/Park_Attributes_utf8.csv' DELIMITER ',' CSV HEADER;"
+rm ../data/Park_Attributes_utf8.csv
 
 # There's a weird UTF error with one record
 #sudo -u postgres psql -d $DATABASE_NAME -c "UPDATE park_attributes SET display_climate = regexp_replace(display_climate, 'â' || U&'\0080' || U&'\0099', '&deg;', 'g') WHERE display_climate like '%â' || U&'\0080' || U&'\0099' || '%';"
 
 # Add the regions geojson file
-ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/nps-regions.geojson
+echo "******** Add the regions geojson file ********"
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/nps-regions.geojson -nln $tbl_nps_regions -nlt MULTIPOLYGON -t_srs EPSG:3857
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX nps_regions_gist ON $tbl_nps_regions USING GIST (wkb_geometry);"
+echo "Table $tbl_nps_regions created"
 
-# Add the wsd-all-parks  geojson file
-# http://gis.stackexchange.com/questions/16340/alternatives-to-ogr2ogr-for-loading-large-geojson-files-to-postgis
-rm -f ../data/wsd-parks-chunks-*
-split -l 100 ../data/wsd-all-parks.geojson  ../data/wsd-parks-chunks-
-echo '{"type":"FeatureCollection","features":[' > ../data/head
-echo ']}' > ../data/tail
-for f in ../data/wsd-parks-chunks-* ; do cat ../data/head $f ../data/tail > $f.json && rm -f $f ; done
-for f in ../data/wsd-parks-chunks-*.json ; do ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" $f -append; done
+# Add the wsd-all-parks
+echo "******** Add the wsd-all-parks ********"
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/WSD_Parks/WSDParks.gdb "ZoomLevel13Polys" -nln $tbl_wsd_parks -t_srs EPSG:3857
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX wsd_polys_gist ON $tbl_wsd_parks USING GIST (wkb_geometry);"
+echo "Table $tbl_wsd_parks created"
+
+# Add the nps_boundary
+echo "******** Add the nps_boundary ********"
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres password=postgres dbname=data_import" ../data/nps_boundary/nps_boundary.shp -nln $tbl_nps_boundary -nlt MULTIPOLYGON -t_srs EPSG:3857
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX irma_nps_boundaries_gist ON $tbl_nps_boundary USING GIST (wkb_geometry);"
+echo "Table $tbl_nps_boundary created"
