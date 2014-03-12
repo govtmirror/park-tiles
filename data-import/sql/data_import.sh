@@ -64,7 +64,7 @@ echo "Table $tbl_nps_boundary created"
 # Add the aggregated table
 echo "******** Add the aggregated table ********"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_aggregated AS `cat $file_tbl_aggregated`"
-sudo -u postgres psql -d $DATABASE_NAME -c "ALTER TABLE "$tbl_aggregated"_inset ADD CONSTRAINT "$tbl_aggregated"_pk PRIMARY KEY (unit_code);"
+sudo -u postgres psql -d $DATABASE_NAME -c "ALTER TABLE "$tbl_aggregated" ADD CONSTRAINT "$tbl_aggregated"_pk PRIMARY KEY (unit_code);"
 echo "Table $tbl_aggregated created"
 
 # Run the park inset script
