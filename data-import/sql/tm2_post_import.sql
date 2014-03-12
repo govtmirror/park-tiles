@@ -132,9 +132,9 @@ SET
           750000)
     WHERE
       a.unit_code = npmap_all_parks.unit_code
-    ) b
+    ) c
     WHERE
-      b.unit_code = npmap_all_parks.unit_code);
+      c.unit_code = npmap_all_parks.unit_code);
 
 
 
