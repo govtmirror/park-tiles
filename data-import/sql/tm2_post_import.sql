@@ -220,6 +220,6 @@ INSERT INTO npmap_all_parks_inset (SELECT unit_code, 15, st_multi(st_difference(
 
 -- add indexes to new table
 \echo 'Creating the primary key and adding indexes'
-ALTER TABLE npmap_all_parks_inset ADD CONSTRAINT npmap_all_parks_inset_pk PRIMARY KEY (unit_code, zoomlevel);"
+ALTER TABLE npmap_all_parks_inset ADD CONSTRAINT npmap_all_parks_inset_pk PRIMARY KEY (unit_code, zoomlevel);
 CREATE INDEX npmap_all_parks_inset_join_gis ON npmap_all_parks_inset (unit_code);
 CREATE INDEX npmap_all_parks_inset_zoomlevel ON npmap_all_parks_inset (zoomlevel);
