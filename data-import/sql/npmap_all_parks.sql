@@ -26,21 +26,13 @@ FROM   (SELECT alpha,
                display_url,
                display_address,
                display_phone,
-               display_climate
-        FROM   park_attributes
-        GROUP  BY alpha,
-                  pointtopol,
-                  designation,
-                  name,
-                  display_name,
-                  display_designation,
-                  display_concatenated,
-                  display_state,
-                  display_blurb,
-                  display_url,
-                  display_address,
-                  display_phone,
-                  display_climate) AS park_attrs
+               display_climate,
+               row_number() OVER (partition by alpha order by display_name
+        FROM
+          park_attributes
+        WHERE
+          row = 1
+       ) AS park_attrs
        full outer join (
        SELECT
          Coalesce(poly.unit_code, point.unit_code) as unit_code,
