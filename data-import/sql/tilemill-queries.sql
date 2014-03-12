@@ -65,3 +65,16 @@
   where z(!scale_denominator!) >= 13
   and i.zoomlevel >= 13
 ) as data
+
+-- NPMAP WORK
+
+-- NPS Boundary
+( select poly_geom, designation, display_state, nps_region, unit_code, display_name, name,
+  log(area)/log(10) as size,
+    -- Geometries are simplified with a tolerence of 1 pixel at the
+    -- given zoom level until z13 where the full geometry is used.
+    case when z(!scale_denominator!) <= 12
+      then st_simplify(poly_geom,!pixel_width!)
+      else poly_geom end as geom
+  from npmap_all_parks
+) as data
