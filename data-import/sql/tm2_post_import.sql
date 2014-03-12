@@ -1,19 +1,21 @@
 --https://github.com/mapbox/nps-tm2-demo/blob/master/post_import.sql
 
 -- Derive area measurements for boundaries. Useful for label ordering.
+\echo 'Adding Area Column'
 ALTER TABLE npmap_all_parks ADD COLUMN area numeric;
 UPDATE npmap_all_parks SET area = ST_AREA(poly_geom);
 
 -- make sure all geometries are valid
+\echo 'Fixing geoms'
 UPDATE npmap_all_parks SET poly_geom = ST_MULTI(st_buffer(poly_geom,0));
 
 -- add new geometry column to store points
+\echo 'Adding the label point'
 ALTER TABLE npmap_all_parks ADD COLUMN label_point geometry(multipoint, 3857);
-
--- populate point geometry column
 UPDATE npmap_all_parks SET label_point = Coalesce(ST_Multi(ST_POINTONSURFACE(poly_geom)), point_geom);
 
 -- create geometry indexes for faster querying
+\echo 'Adding and index on the label point'
 CREATE INDEX npmap_all_parks_label_point ON npmap_all_parks USING gist (label_point);
 
 -- Determine which region each park is in
@@ -95,6 +97,7 @@ WHERE
   npmap_all_parks.poly_geom IS NULL AND
   npmap_all_parks.point_geom IS NOT NULL;
 
+\echo 'Adding the z function'
 --
 -- Add a PostgreSQL function to calculate zoom level given a scale denominator.
 -- This is used in the queries configured in the TM2 source project.
@@ -111,6 +114,8 @@ BEGIN
 END;
 $func$;
 
+
+\echo 'Adding the inset tables'
 --
 -- Create inset geometries for all NPS boundaries to allow for tint bands.
 -- (Note: this increases import time significantly.)
@@ -121,21 +126,33 @@ CREATE TABLE npmap_all_parks_inset (
 );
 /*
 -- insert inset poly_geometries to new table from main boundary table
+\echo 'Adding Zoom Level 8'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 8,  st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^8)  * -2))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+\echo 'Adding Zoom Level 9'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 9,  st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^9)  * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+\echo 'Adding Zoom Level 10'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 10, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^10) * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+\echo 'Adding Zoom Level 11'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 11, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^11) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+\echo 'Adding Zoom Level 12'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 12, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^12) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+\echo 'Adding Zoom Level 13'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 13, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^13) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+\echo 'Adding Zoom Level 14'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 14, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^14) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
+\echo 'Adding Zoom Level 15'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 15, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^15) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
 
+\echo 'Adding Zoom Level 13 Inset 2'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 13, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^13) * -2))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
+\echo 'Adding Zoom Level 14 Inset 2'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 14, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^14) * -3))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
+\echo 'Adding Zoom Level 16 Inset 2'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 15, st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^15) * -4))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) < 6);
 
 -- add indexes to new table
-#ALTER TABLE npmap_all_parks_inset ADD CONSTRAINT npmap_all_parks_inset_pk PRIMARY KEY (unit_code, zoomlevel);"
+\echo 'Creating the primary key and adding indexes'
+ALTER TABLE npmap_all_parks_inset ADD CONSTRAINT npmap_all_parks_inset_pk PRIMARY KEY (unit_code, zoomlevel);"
 CREATE INDEX npmap_all_parks_inset_join_gis ON npmap_all_parks_inset (unit_code);
 CREATE INDEX npmap_all_parks_inset_zoomlevel ON npmap_all_parks_inset (zoomlevel);
 */
