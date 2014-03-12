@@ -99,7 +99,7 @@ WHERE
 
 
 \echo 'Ranking the parks by size per region'
-ALTER TABLE npmap_all_parks ADD COLUMN region_rank varchar;
+ALTER TABLE npmap_all_parks ADD COLUMN region_rank smallint;
 UPDATE
   npmap_all_parks
 SET
@@ -117,7 +117,7 @@ SET
 
 
 \echo 'Ranking the parks by size per buffer of 750km'
-ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank varchar;
+ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank smallint;
 UPDATE
   npmap_all_parks
 SET
@@ -141,7 +141,7 @@ SET
         c.unit_code = npmap_all_parks.unit_code);
 
 \echo 'Ranking the parks by size per buffer of 100km'
-ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank_100km varchar;
+ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank_100km smallint;
 UPDATE
   npmap_all_parks
 SET
