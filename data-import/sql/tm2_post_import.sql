@@ -123,18 +123,22 @@ UPDATE
 SET
   buffer_rank = (
     SELECT
-      row_number() OVER (order by coalesce(b.area, 0) desc) rank
-    FROM
-      npmap_all_parks a JOIN npmap_all_parks b ON
-        ST_DWithin(
-          coalesce(a.poly_geom, a.point_geom),
-          coalesce(b.poly_geom, b.point_geom),
-          750000)
-    WHERE
-      a.unit_code = npmap_all_parks.unit_code
-    ) c
-    WHERE
-      c.unit_code = npmap_all_parks.unit_code);
+      rank
+    FROM (
+      SELECT
+        b.unit_code,
+        row_number() OVER (order by coalesce(b.area, 0) desc) rank
+      FROM
+        npmap_all_parks a JOIN npmap_all_parks b ON
+          ST_DWithin(
+            coalesce(a.poly_geom, a.point_geom),
+            coalesce(b.poly_geom, b.point_geom),
+            750000)
+      WHERE
+        a.unit_code = npmap_all_parks.unit_code
+      ) c
+      WHERE
+        c.unit_code = npmap_all_parks.unit_code);
 
 
 
