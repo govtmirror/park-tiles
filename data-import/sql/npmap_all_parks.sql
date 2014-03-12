@@ -27,7 +27,7 @@ FROM   (SELECT alpha,
                display_address,
                display_phone,
                display_climate,
-               row_number() OVER (partition by alpha order by display_name)
+               row_number() OVER (partition by alpha order by display_name) as row
         FROM
           park_attributes
         WHERE
