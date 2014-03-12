@@ -50,7 +50,7 @@ SET
 WHERE
   npmap_all_parks.poly_geom IS NULL;
 
-\echo 'Joining hard to match regions'
+\echo 'Joining hard to match regions to polys'
  UPDATE
   npmap_all_parks
 SET
@@ -71,6 +71,29 @@ SET
 WHERE
   npmap_all_parks.nps_region IS NULL AND
   npmap_all_parks.poly_geom IS NOT NULL;
+
+\echo 'Joining hard to match regions to points'
+ UPDATE
+  npmap_all_parks
+SET
+  nps_region = (
+    SELECT
+      a.nps_region
+    FROM (
+      SELECT
+        nps_regions.nps_region,
+        row_number() OVER (partition by c.unit_code order by ST_DISTANCE(nps_regions.wkb_geometry, c.point_geom)) as rank
+      FROM
+        nps_regions JOIN npmap_all_parks c ON
+        nps_regions.wkb_geometry && c.point_geom
+      WHERE
+        c.nps_region IS NULL and c.unit_code = npmap_all_parks.unit_code
+    ) a WHERE a.RANK = 1
+  )
+WHERE
+  npmap_all_parks.nps_region IS NULL AND
+  npmap_all_parks.poly_geom IS NULL AND
+  npmap_all_parks.point_geom IS NOT NULL;
 
 --
 -- Add a PostgreSQL function to calculate zoom level given a scale denominator.
