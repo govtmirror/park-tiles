@@ -14,7 +14,7 @@ Coalesce(irma_wsd.poly_source, 'None') AS poly_source,
        park_attrs.display_address,
        park_attrs.display_phone,
        park_attrs.display_climate
-FROM   (SELECT alpha,
+FROM   (SELECT * FROM (SELECT alpha,
                pointtopol,
                designation,
                name,
@@ -29,7 +29,7 @@ FROM   (SELECT alpha,
                display_climate,
                row_number() OVER (partition by alpha order by display_name) as row
         FROM
-          park_attributes
+          park_attributes) as PA
         WHERE
           row = 1
        ) AS park_attrs
@@ -60,7 +60,7 @@ FROM   (SELECT alpha,
                 FROM   wsd_polys
                 GROUP  BY wsd_polys.unit_code) AS wsd
             ON irma.unit_code = wsd.unit_code) AS poly ON point.unit_code = poly.unit_code) AS irma_wsd
-                    ON park_attrs.alpha = irma_wsd.unit_code
+            ON park_attrs.alpha = irma_wsd.unit_code
        WHERE
          display_designation != 'National Historic Trail' AND
          display_designation != 'National Scenic Trail' AND
