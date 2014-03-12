@@ -99,13 +99,12 @@ WHERE
 
 
 \echo 'Ranking the parks by size per region'
-ALTER TABLE region_rank ADD COLUMN nps_region varchar;
+ALTER TABLE npmap_all_parks ADD COLUMN region_rank varchar;
 UPDATE
   npmap_all_parks
 SET
   region_rank = (
     SELECT
-      b.unit_code,
       b.rank
     FROM (
       SELECT
@@ -115,6 +114,29 @@ SET
         npmap_all_parks a) b
     WHERE
       b.unit_code = npmap_all_parks.unit_code);
+
+
+\echo 'Ranking the parks by size per buffer of 750km'
+ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank varchar;
+UPDATE
+  npmap_all_parks
+SET
+  buffer_rank = (
+    SELECT
+      row_number() OVER (order by coalesce(b.area, 0) desc) rank
+    FROM
+      npmap_all_parks a JOIN npmap_all_parks b ON
+        ST_DWithin(
+          coalesce(a.poly_geom, a.point_geom),
+          coalesce(b.poly_geom, b.point_geom),
+          750000)
+    WHERE
+      a.unit_code = npmap_all_parks.unit_code
+    ) b
+    WHERE
+      b.unit_code = npmap_all_parks.unit_code);
+
+
 
 \echo 'Adding the z function'
 --
