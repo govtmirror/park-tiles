@@ -140,6 +140,30 @@ SET
       WHERE
         c.unit_code = npmap_all_parks.unit_code);
 
+\echo 'Ranking the parks by size per buffer of 100km'
+ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank_100km varchar;
+UPDATE
+  npmap_all_parks
+SET
+  buffer_rank_100km = (
+    SELECT
+      rank
+    FROM (
+      SELECT
+        b.unit_code,
+        row_number() OVER (order by coalesce(b.area, 0) desc) rank
+      FROM
+        npmap_all_parks a JOIN npmap_all_parks b ON
+          ST_DWithin(
+            coalesce(a.poly_geom, a.point_geom),
+            coalesce(b.poly_geom, b.point_geom),
+            100000)
+      WHERE
+        a.unit_code = npmap_all_parks.unit_code
+      ) c
+      WHERE
+        c.unit_code = npmap_all_parks.unit_code);
+
 
 
 \echo 'Adding the z function'
@@ -169,7 +193,6 @@ $func$;
 CREATE TABLE npmap_all_parks_inset (
     unit_code char(4), zoomlevel integer, geom geometry(multipolygon,3857)
 );
-/*
 -- insert inset poly_geometries to new table from main boundary table
 \echo 'Adding Zoom Level 8'
 INSERT INTO npmap_all_parks_inset (SELECT unit_code, 8,  st_multi(st_difference(poly_geom,st_buffer(poly_geom,40075016.68/(256*2^8)  * -2))) from npmap_all_parks where poly_geom IS NOT NULL AND log(area)/log(10) > 6);
@@ -200,4 +223,3 @@ INSERT INTO npmap_all_parks_inset (SELECT unit_code, 15, st_multi(st_difference(
 ALTER TABLE npmap_all_parks_inset ADD CONSTRAINT npmap_all_parks_inset_pk PRIMARY KEY (unit_code, zoomlevel);"
 CREATE INDEX npmap_all_parks_inset_join_gis ON npmap_all_parks_inset (unit_code);
 CREATE INDEX npmap_all_parks_inset_zoomlevel ON npmap_all_parks_inset (zoomlevel);
-*/
