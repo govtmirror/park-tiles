@@ -97,6 +97,25 @@ WHERE
   npmap_all_parks.poly_geom IS NULL AND
   npmap_all_parks.point_geom IS NOT NULL;
 
+
+\echo 'Ranking the parks by size per region'
+ALTER TABLE region_rank ADD COLUMN nps_region varchar;
+UPDATE
+  npmap_all_parks
+SET
+  region_rank = (
+    SELECT
+      b.unit_code,
+      b.rank
+    FROM (
+      SELECT
+        unit_code,
+        row_number() OVER (partition by a.nps_region order by coalesce(a.area, 0) desc) rank
+      FROM
+        npmap_all_parks a) b
+    WHERE
+      b.unit_code = npmap_all_parks.unit_code);
+
 \echo 'Adding the z function'
 --
 -- Add a PostgreSQL function to calculate zoom level given a scale denominator.
