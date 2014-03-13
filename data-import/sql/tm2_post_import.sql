@@ -117,11 +117,11 @@ SET
 
 
 \echo 'Ranking the parks by size per buffer of 750km'
-ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank smallint;
+ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank_750km smallint;
 UPDATE
   npmap_all_parks
 SET
-  buffer_rank = (
+  buffer_rank_750km = (
     SELECT
       rank
     FROM (
@@ -158,6 +158,30 @@ SET
             coalesce(a.poly_geom, a.point_geom),
             coalesce(b.poly_geom, b.point_geom),
             100000)
+      WHERE
+        a.unit_code = npmap_all_parks.unit_code
+      ) c
+      WHERE
+        c.unit_code = npmap_all_parks.unit_code);
+
+\echo 'Ranking the parks by size per buffer of 1000km'
+ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank_1000km smallint;
+UPDATE
+  npmap_all_parks
+SET
+  buffer_rank_1000km = (
+    SELECT
+      rank
+    FROM (
+      SELECT
+        b.unit_code,
+        row_number() OVER (order by coalesce(b.area, 0) desc) rank
+      FROM
+        npmap_all_parks a JOIN npmap_all_parks b ON
+          ST_DWithin(
+            coalesce(a.poly_geom, a.point_geom),
+            coalesce(b.poly_geom, b.point_geom),
+            1000000)
       WHERE
         a.unit_code = npmap_all_parks.unit_code
       ) c
