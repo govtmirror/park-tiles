@@ -24,7 +24,7 @@ sudo -u postgres psql -d $DATABASE_NAME -c "CREATE EXTENSION postgis_topology;"
 # Add the Park Attributes File
 echo "******** Add the Park Attributes File ********"
 ogr2ogr -f "PostgreSQL" PG:"$psql_conn" ../data/Park_Attributes_Cleaned.sqlite -nln $tbl_park_attributes
-sudo -u postgres psql -d $DATABASE_NAME -c "ALTER TABLE "$tbl_park_attributes" ADD CONSTRAINT "$tbl_park_attributes"_pk PRIMARY KEY (alphacode);"
+sudo -u postgres psql -d $DATABASE_NAME -c "ALTER TABLE "$tbl_park_attributes" ADD UNIQUE (alphacode);"
 echo "Table $tbl_park_attributes created"
 
 # Add the regions geojson file
