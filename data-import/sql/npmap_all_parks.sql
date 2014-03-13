@@ -1,39 +1,20 @@
 SELECT irma_wsd.poly_geom                                  AS poly_geom,
 irma_wsd.point_geom                                  AS point_geom,
 Coalesce(irma_wsd.poly_source, 'None') AS poly_source,
-       Coalesce(irma_wsd.unit_code, park_attrs.alpha) AS unit_code,
-       park_attrs.pointtopol,
-       park_attrs.designation,
-       park_attrs.name,
-       park_attrs.display_name,
-       park_attrs.display_designation,
-       park_attrs.display_concatenated,
-       park_attrs.display_state,
-       park_attrs.display_blurb,
-       park_attrs.display_url,
-       park_attrs.display_address,
-       park_attrs.display_phone,
-       park_attrs.display_climate
-FROM   (SELECT * FROM (SELECT alpha,
-               pointtopol,
-               designation,
-               name,
-               display_name,
-               display_designation,
-               display_concatenated,
-               display_state,
-               display_blurb,
-               display_url,
-               display_address,
-               display_phone,
-               display_climate,
-               row_number() OVER (partition by alpha order by display_name) as row
-        FROM
-          park_attributes) as PA
-        WHERE
-          row = 1
-       ) AS park_attrs
-       full outer join (
+       Coalesce(irma_wsd.unit_code, park_attributes.alpha) AS unit_code,
+       park_attributes.pointtopol,
+       park_attributes.designation,
+       park_attributes.name,
+       park_attributes.display_name,
+       park_attributes.display_designation,
+       park_attributes.display_concatenated,
+       park_attributes.display_state,
+       park_attributes.display_blurb,
+       park_attributes.display_url,
+       park_attributes.display_address,
+       park_attributes.display_phone,
+       park_attributes.display_climate
+FROM   park_attributes full outer join (
        SELECT
          Coalesce(poly.unit_code, point.unit_code) as unit_code,
          poly.source as poly_source,
@@ -60,7 +41,7 @@ FROM   (SELECT * FROM (SELECT alpha,
                 FROM   wsd_polys
                 GROUP  BY wsd_polys.unit_code) AS wsd
             ON irma.unit_code = wsd.unit_code) AS poly ON point.unit_code = poly.unit_code) AS irma_wsd
-            ON park_attrs.alpha = irma_wsd.unit_code
+            ON park_attributes.alpha = irma_wsd.unit_code
        WHERE
          display_designation != 'National Historic Trail' AND
          display_designation != 'National Scenic Trail' AND
