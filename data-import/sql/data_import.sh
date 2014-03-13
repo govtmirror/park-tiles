@@ -3,12 +3,14 @@ DATABASE_NAME=data_import
 file_tbl_aggregated="./npmap_all_parks.sql"
 file_tbl_aggregated_updates="./npmap_all_parks_updates.sql"
 file_post_import="./tm2_post_import.sql"
+file_empty_to_null="./empty_to_null.sql"
 tbl_park_attributes=park_attributes
 tbl_nps_regions=nps_regions
 tbl_nps_boundary=irma_nps_boundaries
 tbl_wsd_parks_poly=wsd_polys
 tbl_wsd_parks_points=wsd_points
 tbl_aggregated=npmap_all_parks
+func_f_empty_to_null=f_empty_to_null
 
 psql_conn="host=localhost user=postgres password=postgres dbname=$DATABASE_NAME"
 
@@ -26,6 +28,13 @@ echo "******** Add the Park Attributes File ********"
 ogr2ogr -f "PostgreSQL" PG:"$psql_conn" ../data/Park_Attributes_Cleaned.sqlite -nln $tbl_park_attributes
 sudo -u postgres psql -d $DATABASE_NAME -c "ALTER TABLE "$tbl_park_attributes" ADD UNIQUE (alphacode);"
 echo "Table $tbl_park_attributes created"
+
+# Clean up the park attributes table
+echo "******** Cleaning the Park Attributes File ********"
+sudo -u postgres psql -d $DATABASE_NAME -f $file_empty_to_null
+sudo -u postgres psql -d $DATABASE_NAME -c "SELECT * FROM "$func_f_empty_to_null"('"$tbl_park_attributes"');"
+sudo -u postgres psql -d $DATABASE_NAME -c "DROP FUNCTION "$func_f_empty_to_null"(regclass);"
+echo "Table $tbl_park_attributes cleaned"
 
 # Add the regions geojson file
 echo "******** Add the regions geojson file ********"
