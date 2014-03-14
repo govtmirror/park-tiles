@@ -22,8 +22,12 @@ FULL OUTER JOIN
    FROM wsd_points AS point
    FULL OUTER JOIN
      (SELECT Coalesce(wsd.unit_code, irma.unit_code) AS unit_code,
-             CASE WHEN (wsd.wkb_geometry IS NOT NULL) THEN 'WSD_Parks' WHEN (irma.wkb_geometry IS NOT NULL) THEN 'IRMA' ELSE 'Unknown' END AS SOURCE,
-                                                                                                                                              Coalesce(wsd.wkb_geometry, irma.wkb_geometry) AS geom
+             CASE
+               WHEN (wsd.wkb_geometry IS NOT NULL) THEN 'WSD_Parks'
+               WHEN (irma.wkb_geometry IS NOT NULL) THEN 'IRMA'
+               ELSE 'Unknown'
+             END AS SOURCE,
+             Coalesce(wsd.wkb_geometry, irma.wkb_geometry) AS geom
       FROM
         (SELECT irma_nps_boundaries.unit_code,
                 St_collect(Array_agg(irma_nps_boundaries.wkb_geometry)) AS wkb_geometry
