@@ -18,13 +18,31 @@ UPDATE npmap_all_parks SET label_point = Coalesce(ST_Multi(ST_POINTONSURFACE(pol
 \echo 'Adding and index on the label point'
 CREATE INDEX npmap_all_parks_label_point ON npmap_all_parks USING gist (label_point);
 
+-- Find max zoom level where area is at least 7.5 pixels
+-- round(log(2,(7.5/(area^(0.5) / (40075016.68/(256*2^1))))::numeric)+1.5)
+ALTER TABLE npmap_all_parks ADD COLUMN minZoomPoly;
+\echo 'Determining the minimum zoom level that each object should be a polygon'
+UPDATE
+  npmap_all_parks
+SET
+  minZoomPoly = round(log(2,(8/(npmap_all_parks.area^(0.5) / (40075016.68/(256*2^1))))::numeric)+1.5);
+
+-- Visitor/Area Rank
+-- log(coalesce(visitors,1))/log(10)+1 * log(area/log(10))
+ALTER TABLE npmap_all_parks ADD COLUMN visitorAreaRank;
+\echo 'Determining the minimum zoom level that each object should be a polygon'
+UPDATE
+  npmap_all_parks
+SET
+  visitorAreaRank = log(coalesce(npmap_all_parks.visitors,1))/log(10)+1 * log(area/log(10));
+
 -- Determine the visitors in the parks
 ALTER TABLE npmap_all_parks ADD COLUMN visitors numeric;
 \echo 'Joining Parks to Visitor Counts'
 UPDATE
   npmap_all_parks
 SET
-  nps_region = (
+  visitors = (
     SELECT
       park_visitors.visitors
     FROM
@@ -34,7 +52,7 @@ SET
       park_visitors.name = npmap_all_parks.name
     LIMIT
       1
-  )
+  );
 
 -- Determine which region each park is in
 ALTER TABLE npmap_all_parks ADD COLUMN nps_region varchar;
@@ -133,6 +151,29 @@ SET
     WHERE
       b.unit_code = npmap_all_parks.unit_code);
 
+\echo 'Ranking the parks by size per buffer of 750km'
+ALTER TABLE npmap_all_parks ADD COLUMN visitorArea_rank_750km smallint;
+UPDATE
+  npmap_all_parks
+SET
+  visitorArea_rank_750km = (
+    SELECT
+      rank
+    FROM (
+      SELECT
+        b.unit_code,
+        row_number() OVER (order by coalesce(b.visitorAreaRank, 0) desc) rank
+      FROM
+        npmap_all_parks a JOIN npmap_all_parks b ON
+          ST_DWithin(
+            coalesce(a.poly_geom, a.point_geom),
+            coalesce(b.poly_geom, b.point_geom),
+            750000)
+      WHERE
+        a.unit_code = npmap_all_parks.unit_code
+      ) c
+      WHERE
+        c.unit_code = npmap_all_parks.unit_code);
 
 \echo 'Ranking the parks by size per buffer of 750km'
 ALTER TABLE npmap_all_parks ADD COLUMN buffer_rank_750km smallint;
