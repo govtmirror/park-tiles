@@ -14,7 +14,7 @@ Coalesce(irma_wsd.poly_source, 'None') AS poly_source,
        park_attributes.display_address,
        park_attributes.display_phone,
        park_attributes.display_climate
-FROM   park_attributes full outer join (
+FROM   park_attributes FULL OUTER JOIN (
        SELECT
          Coalesce(poly.unit_code, point.unit_code) as unit_code,
          poly.source as poly_source,
