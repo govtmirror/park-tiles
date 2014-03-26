@@ -18,24 +18,6 @@ UPDATE npmap_all_parks SET label_point = Coalesce(ST_Multi(ST_POINTONSURFACE(pol
 \echo 'Adding and index on the label point'
 CREATE INDEX npmap_all_parks_label_point ON npmap_all_parks USING gist (label_point);
 
--- Find max zoom level where area is at least 7.5 pixels
--- round(log(2,(7.5/(area^(0.5) / (40075016.68/(256*2^1))))::numeric)+1.5)
-ALTER TABLE npmap_all_parks ADD COLUMN minZoomPoly numeric;
-\echo 'Determining the minimum zoom level that each object should be a polygon'
-UPDATE
-  npmap_all_parks
-SET
-  minZoomPoly = round(log(2,(8/(npmap_all_parks.area^(0.5) / (40075016.68/(256*2^1))))::numeric)+1.5);
-
--- Visitor/Area Rank
--- log(coalesce(visitors,1))/log(10)+1 * log(area/log(10))
-ALTER TABLE npmap_all_parks ADD COLUMN visitorAreaRank numeric;
-\echo 'Determining the minimum zoom level that each object should be a polygon'
-UPDATE
-  npmap_all_parks
-SET
-  visitorAreaRank = log(coalesce(npmap_all_parks.visitors,1))/log(10)+1 * log(area/log(10));
-
 -- Determine the visitors in the parks
 ALTER TABLE npmap_all_parks ADD COLUMN visitors numeric;
 \echo 'Joining Parks to Visitor Counts'
@@ -53,6 +35,24 @@ SET
     LIMIT
       1
   );
+
+-- Find max zoom level where area is at least 7.5 pixels
+-- round(log(2,(7.5/(area^(0.5) / (40075016.68/(256*2^1))))::numeric)+1.5)
+ALTER TABLE npmap_all_parks ADD COLUMN minZoomPoly numeric;
+\echo 'Determining the minimum zoom level that each object should be a polygon'
+UPDATE
+  npmap_all_parks
+SET
+  minZoomPoly = round(log(2,(8/(npmap_all_parks.area^(0.5) / (40075016.68/(256*2^1))))::numeric)+1.5);
+
+-- Visitor/Area Rank
+-- log(coalesce(visitors,1))/log(10)+1 * log(area/log(10))
+ALTER TABLE npmap_all_parks ADD COLUMN visitorAreaRank numeric;
+\echo 'Determining the rank based on visitors and the area'
+UPDATE
+  npmap_all_parks
+SET
+  visitorAreaRank = log(coalesce(npmap_all_parks.visitors,1))/log(10)+1 * log(area/log(10));
 
 -- Determine which region each park is in
 ALTER TABLE npmap_all_parks ADD COLUMN nps_region varchar;
