@@ -18,6 +18,24 @@ UPDATE npmap_all_parks SET label_point = Coalesce(ST_Multi(ST_POINTONSURFACE(pol
 \echo 'Adding and index on the label point'
 CREATE INDEX npmap_all_parks_label_point ON npmap_all_parks USING gist (label_point);
 
+-- Determine the visitors in the parks
+ALTER TABLE npmap_all_parks ADD COLUMN visitors numeric;
+\echo 'Joining Parks to Visitor Counts'
+UPDATE
+  npmap_all_parks
+SET
+  nps_region = (
+    SELECT
+      park_visitors.visitors
+    FROM
+      park_visitors
+    WHERE
+      park_visitors.name = npmap_all_parks.display_name OR
+      park_visitors.name = npmap_all_parks.name
+    LIMIT
+      1
+  )
+
 -- Determine which region each park is in
 ALTER TABLE npmap_all_parks ADD COLUMN nps_region varchar;
 \echo 'Joining Regions to Polys'
