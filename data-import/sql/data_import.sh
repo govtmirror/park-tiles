@@ -64,7 +64,7 @@ echo "Table $tbl_nps_boundary created"
 # data_import.sh
 echo "******** Add the nps_visitors boundary ********"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_nps_visitors (name varchar, visitors numeric);"
-sudo -u postgres psql -d $DATABASE_NAME -c "COPY $tbl_nps_visitors FROM '../data/park_visitors.csv' DELIMITER ',' CSV;"
+sudo -u postgres psql -d $DATABASE_NAME -c "COPY $tbl_nps_visitors FROM '`pwd`/../data/park_visitors.csv' DELIMITER ',' CSV;"
 echo "Table $tbl_nps_visitors created"
 
 
