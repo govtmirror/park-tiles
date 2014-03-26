@@ -20,7 +20,7 @@ CREATE INDEX npmap_all_parks_label_point ON npmap_all_parks USING gist (label_po
 
 -- Find max zoom level where area is at least 7.5 pixels
 -- round(log(2,(7.5/(area^(0.5) / (40075016.68/(256*2^1))))::numeric)+1.5)
-ALTER TABLE npmap_all_parks ADD COLUMN minZoomPoly;
+ALTER TABLE npmap_all_parks ADD COLUMN minZoomPoly numeric;
 \echo 'Determining the minimum zoom level that each object should be a polygon'
 UPDATE
   npmap_all_parks
@@ -29,7 +29,7 @@ SET
 
 -- Visitor/Area Rank
 -- log(coalesce(visitors,1))/log(10)+1 * log(area/log(10))
-ALTER TABLE npmap_all_parks ADD COLUMN visitorAreaRank;
+ALTER TABLE npmap_all_parks ADD COLUMN visitorAreaRank numeric;
 \echo 'Determining the minimum zoom level that each object should be a polygon'
 UPDATE
   npmap_all_parks
