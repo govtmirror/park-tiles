@@ -10,6 +10,7 @@ tbl_nps_boundary=irma_nps_boundaries
 tbl_wsd_parks_poly=wsd_polys
 tbl_wsd_parks_points=wsd_points
 tbl_aggregated=npmap_all_parks
+tbl_nps_visitors=park_visitors
 func_f_empty_to_null=f_empty_to_null
 
 psql_conn="host=localhost user=postgres password=postgres dbname=$DATABASE_NAME"
@@ -58,6 +59,14 @@ echo "******** Add the nps_boundary ********"
 ogr2ogr -f "PostgreSQL" PG:"$psql_conn" ../data/nps_boundary/nps_boundary.shp -nln $tbl_nps_boundary -nlt MULTIPOLYGON -t_srs EPSG:3857
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX "$tbl_nps_boundary"_gist ON $tbl_nps_boundary USING GIST (wkb_geometry);"
 echo "Table $tbl_nps_boundary created"
+
+# Add the Park Visitor Counts
+# data_import.sh
+echo "******** Add the nps_visitors boundary ********"
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_nps_visitors (name varchar, visitors numeric);"
+sudo -u postgres psql -d $DATABASE_NAME -c "COPY $tbl_nps_visitors FROM '../data/park_visitors.csv' DELIMITER ',' CSV;"
+echo "Table $tbl_nps_visitors created"
+
 
 # Add the aggregated table
 echo "******** Add the aggregated table ********"
