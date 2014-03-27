@@ -9,6 +9,7 @@ tbl_nps_regions=nps_regions
 tbl_nps_boundary=irma_nps_boundaries
 tbl_wsd_parks_poly=wsd_polys
 tbl_wsd_parks_points=wsd_points
+tbl_wsd_appalachian=wsd_appalachian
 tbl_aggregated=npmap_all_parks
 tbl_nps_visitors=park_visitors
 func_f_empty_to_null=f_empty_to_null
@@ -49,10 +50,17 @@ ogr2ogr -f "PostgreSQL" PG:"$psql_conn" ../data/WSD_Parks/WSDParks.gdb "ZoomLeve
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX "$tbl_wsd_parks_poly"_gist ON $tbl_wsd_parks_poly USING GIST (wkb_geometry);"
 echo "Table $tbl_wsd_parks_poly created"
 
+# Add the wsd-all-points
 echo "******** Add the wsd-all-parks (points) ********"
 ogr2ogr -f "PostgreSQL" PG:"$psql_conn" ../data/WSD_Parks/WSDParks.gdb "ZoomLevel4Points" -nln $tbl_wsd_parks_points -t_srs EPSG:3857
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX "$tbl_wsd_parks_points"_gist ON $tbl_wsd_parks_points USING GIST (wkb_geometry);"
 echo "Table $tbl_wsd_parks_points created"
+
+# Add the appalachian trail
+echo "******** Add the wsd-all-parks (Appalachian Trail) ********"
+ogr2ogr -f "PostgreSQL" PG:"$psql_conn" ../data/WSD_Parks/WSDParks.gdb "Appalachian_NST" -nln $tbl_wsd_appalachian -t_srs EPSG:3857
+sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX "$tbl_wsd_appalachian"_gist ON $tbl_wsd_appalachian USING GIST (wkb_geometry);"
+echo "Table $tbl_wsd_appalachian created"
 
 # Add the nps_boundary
 echo "******** Add the nps_boundary ********"
@@ -61,12 +69,10 @@ sudo -u postgres psql -d $DATABASE_NAME -c "CREATE INDEX "$tbl_nps_boundary"_gis
 echo "Table $tbl_nps_boundary created"
 
 # Add the Park Visitor Counts
-# data_import.sh
 echo "******** Add the nps_visitors boundary ********"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_nps_visitors (name varchar, visitors numeric);"
 sudo -u postgres psql -d $DATABASE_NAME -c "COPY $tbl_nps_visitors FROM '`pwd`/../data/park_visitors.csv' DELIMITER ',' CSV;"
 echo "Table $tbl_nps_visitors created"
-
 
 # Add the aggregated table
 echo "******** Add the aggregated table ********"
