@@ -36,8 +36,27 @@ FULL OUTER JOIN
       FULL OUTER JOIN
         (SELECT wsd_polys.unit_code,
                 St_collect(Array_agg(wsd_polys.wkb_geometry)) AS wkb_geometry
-         FROM wsd_polys
+         FROM 
+(SELECT
+  wsd_appalachian.ogc_fid,
+  wsd_appalachian.wkb_geometry,
+  wsd_appalachian.blurb,
+  wsd_appalachian.alphacode,
+  wsd_appalachian.unit_code,
+  wsd_appalachian.parkname,
+  wsd_appalachian.primary_designation,
+  wsd_appalachian.casualdesignation,
+  wsd_appalachian.fullparkurl,
+  wsd_appalachian.shape_length, 
+  wsd_appalachian.shape_area,
+  wsd_appalachian.shape_length as shape_length_1,
+  wsd_appalachian.shape_area as shape_area_1
+FROM
+  wsd_appalachian
+UNION
+  SELECT * FROM wsd_polys) as
+        wsd_polys
          GROUP BY wsd_polys.unit_code) AS wsd ON irma.unit_code = wsd.unit_code) AS poly ON point.unit_code = poly.unit_code) AS irma_wsd ON park_attributes.alpha = irma_wsd.unit_code
-WHERE display_designation != 'National Historic Trail'
+WHERE unit_code = 'APPA' OR (display_designation != 'National Historic Trail'
   AND display_designation != 'National Scenic Trail'
-  AND unit_code != 'SEKI';
+  AND unit_code != 'SEKI');
