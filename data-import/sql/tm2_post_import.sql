@@ -151,8 +151,8 @@ SET
     WHERE
       b.unit_code = npmap_all_parks.unit_code);
 
-\echo 'Ranking the parks by size per buffer of 750km'
-ALTER TABLE npmap_all_parks ADD COLUMN visitorArea_rank_750km smallint;
+\echo 'Ranking the parks by size and vistor rank per buffer of 750km'
+/*ALTER TABLE npmap_all_parks ADD COLUMN visitorArea_rank_750km smallint;
 UPDATE
   npmap_all_parks
 SET
@@ -246,7 +246,7 @@ SET
       ) c
       WHERE
         c.unit_code = npmap_all_parks.unit_code);
-
+*/
 
 
 \echo 'Adding the z function'
