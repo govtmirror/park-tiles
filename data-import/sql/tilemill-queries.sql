@@ -78,3 +78,16 @@
       else poly_geom end as geom
   from npmap_all_parks
 ) as data
+
+
+-- NPS Label
+
+(select label_point,
+name,
+display_name,
+display_concatenated,
+visitors,
+visitorarearank,
+visitorarea_rank_750km
+from npmap_all_parks)
+as data
