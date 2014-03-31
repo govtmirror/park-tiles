@@ -33,5 +33,5 @@ visitor_area_rank_250km,
 visitor_area_rank_500km,
 visitor_area_rank_750km,
 region_rank,
-minzoompoly from npmap_all_parks)
+minzoompoly from npmap_all_parks order by minzoompoly, visitor_area_rank_250km)
 as data
