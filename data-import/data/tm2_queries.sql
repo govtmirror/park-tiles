@@ -1,8 +1,15 @@
 -- nps_test_poly
 
+username: npmap db: data_import host: localhost port: 5432
+
+geom_table: poly_geom table: npmap_all_parks
+
+buffer: 8
+
+min zoom: 5 max zoom: 19 (both)
+
 (select poly_geom, 
 minzoompoly, 
-buffer_rank_750km, 
 name from npmap_all_parks) 
 as data
 
