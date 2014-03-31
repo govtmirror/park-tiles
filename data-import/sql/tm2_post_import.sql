@@ -1,6 +1,7 @@
 --https://github.com/mapbox/nps-tm2-demo/blob/master/post_import.sql
 
 -- update npmap_all_parks set point_geom = label_point where point_geom is null;
+-- update npmap_all_parks set minzoompoly = 100 where poly_geom is null;
 -- update npmap_all_parks set minzoompoly is null label_point where poly_geom is null;
 
 -- Derive area measurements for boundaries. Useful for label ordering.
