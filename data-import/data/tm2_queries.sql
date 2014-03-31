@@ -8,7 +8,7 @@ as data
 
 -- nps_test_poi
 
-(select way, "fcategory", name, z_order from planet_osm_point order by z_order desc) as data
+(select way, "FCategory", name, z_order from planet_osm_point order by z_order desc) as data
 
 -- nps_test_points
 
