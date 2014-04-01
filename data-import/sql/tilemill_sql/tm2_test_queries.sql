@@ -1,4 +1,4 @@
--- nps_test_poly
+-- nps_park_polygon
 
 username: npmap db: data_import host: localhost port: 5432
 
@@ -8,16 +8,28 @@ buffer: 8
 
 min zoom: 5 max zoom: 19 (both)
 
-(select poly_geom, 
+(select
 minzoompoly, 
-name from npmap_all_parks) 
+case when z(!scale_denominator!) <= 12
+      then st_simplify(poly_geom,!pixel_width!)
+      else poly_geom end as poly_geom, 
+name from npmap_all_parks order by area desc) 
 as data
 
--- nps_test_poi
+--nps_park_polygons without simplification
+
+(select
+poly_geom, 
+minzoompoly,
+name
+from npmap_all_parks order by area desc)
+as data
+
+-- nps_places_poi
 
 (select way, "FCategory", name, z_order from planet_osm_point order by z_order desc) as data
 
--- nps_test_points
+-- nps_park_points
 
 (select point_geom, 
 minzoompoly, 
@@ -28,7 +40,7 @@ display_concatenated,
 display_designation 
 from npmap_all_parks) as data
 
--- nps_test_park_label
+-- nps__park_label
 
 (select 
 label_point,
