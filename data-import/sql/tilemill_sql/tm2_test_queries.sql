@@ -10,10 +10,10 @@ min zoom: 5 max zoom: 19 (both)
 
 (select
 minzoompoly, 
-name from npmap_all_parks
 case when z(!scale_denominator!) <= 12
       then st_simplify(poly_geom,!pixel_width!)
-      else poly_geom end as poly_geom) 
+      else poly_geom end as poly_geom, 
+name from npmap_all_parks order by area desc) 
 as data
 
 -- nps_places_poi
