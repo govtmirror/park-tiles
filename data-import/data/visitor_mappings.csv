@@ -1,89 +1,89 @@
-"Vistor Table";"NPMap Table"
-"Adams NHP";"Adams NHS"
-"Andrew Johnson NHS";"Andrew Johnson National Historic Site NHS" -- should be "Andrew Johnson NHS"
-"Aniakchak NM & PRES";"Aniakchak Preserve NM & Pres" -- should be "Aniakchak NM & PRES"
-"Arkansas Post NMEM";"Arkansas Post NM"
-"Arlington House The R.E. Lee MEM";""
-"Bering Land Bridge NPRES";"Bering Land Bridge NP"
-"Big Cypress NPRES";"Big Cypress NP"
-"Big Thicket NPRES";"Big Thicket NP"
-"Blue Ridge PKWY";"Blue Ridge Parkway"
-"Booker T. Washington NM";"Booker T Washington NM"
-"Buck Island Reef NM";"Buck Island Reef BUIS" -- should be "Buck Island Reef NM"
-"Cape Krusenstern NM";"" -- missing data 
-"Cesar E. Chavez NM";"" -- missing data
-"Chamizal NMEM";"Chamizal NM"
-"Chesapeake & Ohio Canal NHP"; "C&O Canal NHP"
-"City of Rocks NRES";"City of Rocks NR"
-"Clara Barton NHS";"Clara Barton" -- should be "Clara Barton NHS"
-"Coronado NMEM";"Coronado NM"
-"De Soto NMEM";"De Soto NM"
-"Denali NP & PRES";"" -- missing data
-"Federal Hall NMEM";"Federal Hall NM"
-"Flight 93 NMEM";"Flight 93 NM"
-"Ford's Theatre NHS";"Ford's Theatre" -- should be "Ford's Theater NHS"
-"Fort Caroline NMEM";"Fort Caroline NM"
-"Fort McHenry NM & HS";"Fort McHenry NM"
-"Franklin Delano Roosevelt MEM";"Franklin Delano Roosevelt Memorial" -- should be "Franklin Delano Roosevelt MEM"
-"Frederick Douglass NHS";"Frederick Douglass Home"
-"Gates of the Arctic NP & PRES";"" -- missing data
-"General Grant NMEM";"General Grant NM"
-"George Washington MEM PKWY";"George Washington MP"
-"Glacier Bay NP & PRES";"" -- missing data 
-"Great Sand Dunes NP & PRES";"Great Sand Dunes NPP"
-"Hamilton Grange NMEM";"Hamilton Grange NM"
-"Home of Franklin D. Roosevelt NHS";"Home Of Franklin D Roosevelt NHS"
-"Homestead NM of America";"Homestead NM"
-"James A. Garfield NHS";"James A Garfield NHS"
-"John D. Rockefeller, Jr. MEM PKWY";"John D Rockefeller Jr MP"
-"John F. Kennedy NHS";"John F Kennedy NHS"
-"Johnstown Flood NMEM";"Johnstown Flood NM"
-"Kaloko Honokohau NHP";"Kaloko-Honokohau NHP"
-"Klondike Gold Rush NHP Alaska";"Klondike Gold Rush NHP"
-"Klondike Gold Rush NHP Seattle";"Klondike Gold Rush - Seattle Unit NHP"
-"LBJ Memorial Grove on the Potomac";"" -- missing data
-"Lewis & Clark NHP";"Lewis and Clark NHP"
-"Lincoln Boyhood NMEM";"Lincoln Boyhood NM"
-"Little Rock Central High School NHS";"Central High School NHS"
-"Longfellow NHS";"Longfellow House" -- should be "Longfellow House NHS"
-"Lyndon B. Johnson NHP";"Lyndon Baines Johnson NM"
-"Marsh-Billings-Rockefeller NHP";"Marsh - Billings - Rockefeller NHP" -- should be "Marsh-Billings-Rockefeller NHP"
-"Martin Luther King, Jr. Memorial";"" -- missing data
-"Martin Luther King, Jr. NHS";"Martin Luther King Jr NHS"
-"Mary McLeod Bethune Council House NHS";"" -- missing data
-"Mojave NPRES";"Mojave NP"
-"Mount Rushmore NMEM";"Mount Rushmore NM"
-"Natchez Trace PKWY";"Natchez Trace Parkway"
-"National Capital Parks Central";"" -- missing data
-"National Capital Parks East";"" -- missing data
-"New Orleans Jazz NHP";"" -- missing data
-"Obed W&SR";"Obed WSR"
-"Pennsylvania Avenue NHS";"Pennsylvania Avenue" -- should be "Pennsylvania Avenue NHS"
-"Perry's Victory & Intl. Peace MEM";"Perry's Victory & International Peace Memorial"
-"Pinnacles NP";"Pinnacles NM"
-"President W.J. Clinton Birthplace Home NHS";"William Jefferson Clinton Birthplace Home"
-"President's Park";"" -- missing data
-"Pu'uhonua o Honaunau NHP";"Pu`uhonua O Honaunau NHP"
-"Pu'ukohola Heiau NHS";"Puukohola Heiau NHS"
-"Rio Grande W&SR";"Rio Grande WSR"
-"River Raisin NBP";"River Raisin NB"
-"Roger Williams NMEM";"Roger Williams NM"
-"Rosie The Riveter WWII Home Front";"Rosie the Riveter WWII Home Front NHP"
-"Saint Croix Island International Historic Site";"Saint Croix Island IHS"
-"Salt River Bay NHP & Ecological Pres";"Salt River Bay NHP"
-"Sequoia NP";"Sequoia National Park" --should be Sequoia NP
-"Thaddeus Kosciuszko NMEM";"Thaddeus Kosciuszko NM"
-"Theodore Roosevelt Birthplace NHS"; --missing data
-"Theodore Roosevelt Island";"Theodore Roosevelt Island Park"
-"Thomas Jefferson MEM";"" -- missing data
-"Tumacacori NHP";"Tumacácori NHP"
-"Ulysses S. Grant NHS";"Ulysses S Grant NHS"
-"Upper Delaware S&RR";"Upper Delaware SRR"
-"Vietnam Veterans MEM";"Vietnam Veterans Memorial"
-"Washington Monument";"Washington Monument"
-"White House";"" -- missing data
-"Wolf Trap NP for the Performing Arts";"" -- missing data
-"World War II Memorial";"" -- missing data
-"Wrangell-St. Elias NP & PRES";"Wrangell - St Elias NP & Pres" -- should be "Wrangell-St. Elias NP & PRES"
-"Wright Brothers NMEM";"Wright Brothers NM"
-"Yukon-Charley Rivers NPRES";"Yukon - Charley Rivers NPres" -- should be "Yukon-Charley Rivers NPRES"
+Vistor Table,NPMap Table,Comment
+Adams NHP,Adams NHS,
+Andrew Johnson NHS,Andrew Johnson National Historic Site NHS ,"should be ""Andrew Johnson NHS"""
+Aniakchak NM & PRES,Aniakchak Preserve NM & Pres ,"should be ""Aniakchak NM & PRES"""
+Arkansas Post NMEM,Arkansas Post NM,
+Arlington House The R.E. Lee MEM,,missing data
+Bering Land Bridge NPRES,Bering Land Bridge NP,
+Big Cypress NPRES,Big Cypress NP,
+Big Thicket NPRES,Big Thicket NP,
+Blue Ridge PKWY,Blue Ridge Parkway,
+Booker T. Washington NM,Booker T Washington NM,
+Buck Island Reef NM,Buck Island Reef BUIS ,"should be ""Buck Island Reef NM"""
+Cape Krusenstern NM,Cape Krusenstern NM,
+Cesar E. Chavez NM, ,missing data
+Chamizal NMEM,Chamizal NM,
+Chesapeake & Ohio Canal NHP,C&O Canal NHP,
+City of Rocks NRES,City of Rocks NR,
+Clara Barton NHS,Clara Barton ,"should be ""Clara Barton NHS"""
+Coronado NMEM,Coronado NM,
+De Soto NMEM,De Soto NM,
+Denali NP & PRES,Denali National Park,
+Federal Hall NMEM,Federal Hall NM,
+Flight 93 NMEM,Flight 93 NM,
+Ford's Theatre NHS,Ford's Theatre ,"should be ""Ford's Theater NHS"""
+Fort Caroline NMEM,Fort Caroline NM,
+Fort McHenry NM & HS,Fort McHenry NM,
+Franklin Delano Roosevelt MEM,Franklin Delano Roosevelt Memorial ,"should be ""Franklin Delano Roosevelt MEM"""
+Frederick Douglass NHS,Frederick Douglass Home,
+Gates of the Arctic NP & PRES,Gates Of The Arctic NPP,
+General Grant NMEM,General Grant NM,
+George Washington MEM PKWY,George Washington MP,
+Glacier Bay NP & PRES,Glacier Bay NPP,
+Great Sand Dunes NP & PRES,Great Sand Dunes NPP,
+Hamilton Grange NMEM,Hamilton Grange NM,
+Home of Franklin D. Roosevelt NHS,Home Of Franklin D Roosevelt NHS,
+Homestead NM of America,Homestead NM,
+James A. Garfield NHS,James A Garfield NHS,
+"John D. Rockefeller, Jr. MEM PKWY",John D Rockefeller Jr MP,
+John F. Kennedy NHS,John F Kennedy NHS,
+Johnstown Flood NMEM,Johnstown Flood NM,
+Kaloko Honokohau NHP,Kaloko-Honokohau NHP,
+Klondike Gold Rush NHP Alaska,Klondike Gold Rush NHP,
+Klondike Gold Rush NHP Seattle,Klondike Gold Rush - Seattle Unit NHP,
+LBJ Memorial Grove on the Potomac,Lyndon Baines Johnson NM,
+Lewis & Clark NHP,Lewis and Clark NHP,
+Lincoln Boyhood NMEM,Lincoln Boyhood NM,
+Little Rock Central High School NHS,Central High School NHS,
+Longfellow NHS,Longfellow House ,"should be ""Longfellow House NHS"""
+Lyndon B. Johnson NHP,Lyndon Baines Johnson NM,
+Marsh-Billings-Rockefeller NHP,Marsh - Billings - Rockefeller NHP ,"should be ""Marsh"
+"Martin Luther King, Jr. Memorial","Martin Luther King, Jr. Memorial",
+"Martin Luther King, Jr. NHS",Martin Luther King Jr NHS,
+Mary McLeod Bethune Council House NHS,Mary McLeod Bethune Council House National Historic Site,
+Mojave NPRES,Mojave NP,
+Mount Rushmore NMEM,Mount Rushmore NM,
+Natchez Trace PKWY,Natchez Trace Parkway,
+National Capital Parks Central, ,missing data
+National Capital Parks East,National Capital Parks – East,
+New Orleans Jazz NHP, ,missing data
+Obed W&SR,Obed WSR,
+Pennsylvania Avenue NHS,Pennsylvania Avenue ,"should be ""Pennsylvania Avenue NHS"""
+Perry's Victory & Intl. Peace MEM,Perry's Victory & International Peace Memorial,
+Pinnacles NP,Pinnacles NM,
+President W.J. Clinton Birthplace Home NHS,William Jefferson Clinton Birthplace Home,
+President's Park, ,missing data
+Pu'uhonua o Honaunau NHP,Pu`uhonua O Honaunau NHP,
+Pu'ukohola Heiau NHS,Puukohola Heiau NHS,
+Rio Grande W&SR,Rio Grande WSR,
+River Raisin NBP,River Raisin NB,
+Roger Williams NMEM,Roger Williams NM,
+Rosie The Riveter WWII Home Front,Rosie the Riveter WWII Home Front NHP,
+Saint Croix Island International Historic Site,Saint Croix Island IHS,
+Salt River Bay NHP & Ecological Pres,Salt River Bay NHP,
+Sequoia NP,Sequoia National Park ,should be Sequoia NP
+Thaddeus Kosciuszko NMEM,Thaddeus Kosciuszko NM,
+Theodore Roosevelt Birthplace NHS, ,missing data
+Theodore Roosevelt Island,Theodore Roosevelt Island Park,
+Thomas Jefferson MEM,Thomas Jefferson Memorial,
+Tumacacori NHP,Tumacácori NHP,
+Ulysses S. Grant NHS,Ulysses S Grant NHS,
+Upper Delaware S&RR,Upper Delaware SRR,
+Vietnam Veterans MEM,Vietnam Veterans Memorial,
+Washington Monument,Washington Monument,
+White House, ,missing data
+Wolf Trap NP for the Performing Arts,Wolf Trap National Park for the Performing Arts,
+World War II Memorial,World War II Memorial,
+Wrangell-St. Elias NP & PRES,Wrangell - St Elias NP & Pres ,"should be ""Wrangell"
+Wright Brothers NMEM,Wright Brothers NM,
+Yukon-Charley Rivers NPRES,Yukon - Charley Rivers NPres ,"should be ""Yukon"
