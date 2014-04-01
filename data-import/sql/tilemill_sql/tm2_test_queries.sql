@@ -16,6 +16,15 @@ case when z(!scale_denominator!) <= 12
 name from npmap_all_parks order by area desc) 
 as data
 
+--nps_park_polygons without simplification
+
+(select
+poly_geom, 
+minzoompoly,
+name
+from npmap_all_parks order by area desc)
+as data
+
 -- nps_places_poi
 
 (select way, "FCategory", name, z_order from planet_osm_point order by z_order desc) as data
