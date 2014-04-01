@@ -74,6 +74,10 @@ sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_nps_visitors (name
 sudo -u postgres psql -d $DATABASE_NAME -c "COPY $tbl_nps_visitors FROM '`pwd`/../data/park_visitors.csv' DELIMITER ',' CSV;"
 echo "Table $tbl_nps_visitors created"
 
+# vis mapping table
+# CREATE TABLE visitor_mappings (visitors_name varchar, npmap_name varchar, comment varchar);
+
+
 # Add the aggregated table
 echo "******** Add the aggregated table ********"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_aggregated AS `cat $file_tbl_aggregated`"
