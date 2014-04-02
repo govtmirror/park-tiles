@@ -86,3 +86,29 @@ FROM
 label_points
 ORDER BY
 area desc, visitors desc) as data
+
+-- label points
+
+(SELECT 
+ (SELECT 
+point_geom ,
+designation,
+name,
+area_buffer_1000km,
+area_buffer_25km,
+area_buffer_750km,
+area_buffer_500km,
+area_buffer_250km,
+area_buffer_125km,
+area_buffer_50km,
+visitors_buffer_1000km,
+visitors_buffer_750km,
+visitors_buffer_500km,
+visitors_buffer_250km,
+visitors_buffer_125km,
+visitors_buffer_50km,
+visitors_buffer_25km
+FROM
+label_points
+ORDER BY
+area desc, visitors desc) as data
