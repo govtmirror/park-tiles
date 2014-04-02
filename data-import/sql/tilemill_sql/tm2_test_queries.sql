@@ -54,3 +54,35 @@ visitor_area_rank_750km,
 region_rank,
 minzoompoly from npmap_all_parks order by minzoompoly, visitor_area_rank_250km)
 as data
+
+
+-- labels
+
+(SELECT 
+ (SELECT 
+label_point,
+designation,
+name,
+display_name,
+display_designation,
+display_concatenated,
+area,
+visitors,
+area_buffer_1000km,
+area_buffer_25km,
+area_buffer_750km,
+area_buffer_500km,
+area_buffer_250km,
+area_buffer_125km,
+area_buffer_50km,
+visitors_buffer_1000km,
+visitors_buffer_750km,
+visitors_buffer_500km,
+visitors_buffer_250km,
+visitors_buffer_125km,
+visitors_buffer_50km,
+visitors_buffer_25km
+FROM
+label_points
+ORDER BY
+area desc, visitors desc) as data
