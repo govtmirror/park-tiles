@@ -90,7 +90,6 @@ area desc, visitors desc) as data
 -- label points
 
 (SELECT 
- (SELECT 
 point_geom ,
 designation,
 name,
