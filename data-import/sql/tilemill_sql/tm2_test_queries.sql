@@ -25,6 +25,23 @@ name
 from npmap_all_parks order by area desc)
 as data
 
+-- nps_park_polygons presimplified
+(SELECT
+    CASE
+      WHEN z(!scale_denominator!) = 5 THEN poly_geom_5
+      WHEN z(!scale_denominator!) = 6 THEN poly_geom_6
+      WHEN z(!scale_denominator!) = 7 THEN poly_geom_7
+      WHEN z(!scale_denominator!) = 8 THEN poly_geom_8
+      WHEN z(!scale_denominator!) = 9 THEN poly_geom_9
+      WHEN z(!scale_denominator!) = 10 THEN poly_geom_10
+      WHEN z(!scale_denominator!) = 11 THEN poly_geom_11
+      WHEN z(!scale_denominator!) = 11 THEN poly_geom_12
+      ELSE poly_geom end as poly_geom,
+minzoompoly,
+name
+FROM label_points WHERE poly_geom IS NOT NULL ORDER BY area DESC)
+AS data
+
 -- nps_places_poi
 
 (select way, "FCategory", name, z_order from planet_osm_point order by z_order desc) as data
