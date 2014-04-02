@@ -93,6 +93,7 @@ area desc, visitors desc) as data
 point_geom ,
 designation,
 name,
+minzoompoly,
 area_buffer_1000km,
 area_buffer_25km,
 area_buffer_750km,
