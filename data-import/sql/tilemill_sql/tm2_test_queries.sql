@@ -46,7 +46,7 @@ AS data
 
 (select way, "FCategory", name, z_order from planet_osm_point order by z_order desc) as data
 
--- nps_park_points
+-- nps_park_points (old, see below)
 
 (select point_geom, 
 minzoompoly, 
@@ -57,7 +57,7 @@ display_concatenated,
 display_designation 
 from npmap_all_parks) as data
 
--- nps__park_label
+-- nps__park_label (old, see below)
 
 (select 
 label_point,
@@ -73,7 +73,7 @@ minzoompoly from npmap_all_parks order by minzoompoly, visitor_area_rank_250km)
 as data
 
 
--- labels
+-- nps park labels
 
 (SELECT 
 label_point,
@@ -106,10 +106,10 @@ label_point IS NOT NULL
 ORDER BY
 area desc, visitors desc) as data
 
--- label points
+-- nps park points
 
 (SELECT 
-point_geom ,
+point_geom,
 designation,
 name,
 minzoompoly,
