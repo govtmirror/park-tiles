@@ -3,7 +3,7 @@ UPDATE
   label_points
 SET
   visitors_dist = (SELECT 
-    COALESCE(MIN(ST_Distance(a.point_geom, label_points.point_geom)),10000) as visitors_dist
+    COALESCE(MIN(ST_Distance(a.point_geom, label_points.point_geom)),5000000) as visitors_dist
   FROM
     label_points a 
   WHERE
@@ -15,7 +15,7 @@ UPDATE
   label_points
 SET
   area_dist = (SELECT 
-    COALESCE(MIN(ST_Distance(a.point_geom, label_points.point_geom)),10000) as area_dist
+    COALESCE(MIN(ST_Distance(a.point_geom, label_points.point_geom)),5000000) as area_dist
   FROM
     label_points a 
   WHERE
