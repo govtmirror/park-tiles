@@ -204,6 +204,8 @@ WHERE
 
 -- Fix some data problems
 
+-- 'Theodore Roosevelt Birthplace' is named wrong in the database 
+
 UPDATE
   label_points
 SET
@@ -215,22 +217,60 @@ WHERE
   unit_code = 'THRB';
   
 
+-- Shorten the Denali National Park description
 UPDATE
   label_points
 SET
   name = 'Denali'
 WHERE
   name = 'Denali National Park'
-  
+
+-- Shorten the Sequoia National Park description
 UPDATE
   label_points
 SET
   name = 'Sequoia'
 WHERE
   name = 'Sequoia National Park'
-  
+ 
+-- move the label for WW II Valor in the PAcific to the hawaii location? (21.36,-157.95)
+UPDATE
+  label_points
+SET
+  point_geom = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-157.95 21.36)', 4326), 3857)),
+  label_point = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-157.95 21.36)', 4326), 3857))
+WHERE
+  unit_code = 'VALR';
   
 -- Urban points
+-- First 25 from: http://en.wikipedia.org/wiki/List_of_United_States_urban_areas
+/*
+New York: 40.7127, -74.0059
+Los Angeles: 34.05, -118.25
+Chicago: 41.881944, -87.627778
+Miami: 25.787676, -80.224145
+Philadelphia: 39.95, -75.166667
+Dallas: 32.775833, -96.796667
+Houston, TX: 29.762778, -95.383056
+Washington, DC: 38.895111, -77.036667
+Atlanta, GA: 33.755, -84.39
+Boston, MA: 42.358056, -71.063611	
+Detroit, MI: 42.331389, -83.045833
+Phoenix: 33.45, -112.066667
+San Francisco: 37.783333, -122.416667
+Seattle, WA: 47.609722, -122.333056
+San Diego, CA: 32.715, -117.1625
+Minneapolis, MN: 44.95, -93.2
+Tampa, FL: 27.971, -82.465
+Denver, CO: 39.739167, -104.984722
+Baltimore, MD: 39.283333, -76.616667
+St. Louis, MO: 38.627222, -90.197778
+San Juan, PR: 18.45, -66.066667
+Riverside, CA: 33.948056, -117.396111
+Las Vegas, NV: 36.175, -115.136389
+Portland, OR: 45.52, -122.681944
+Cleveland, OH: 41.482222, -81.669722
+*/
 
 
 --select * from label_points;
