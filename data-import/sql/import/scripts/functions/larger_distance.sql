@@ -38,7 +38,7 @@ SET
         label_points a JOIN label_points b ON a.unit_code != b.unit_code
       WHERE
         a.unit_code = d.unit_code AND
-        coalesce(d.area, 1) > coalesce(a.area, 0)
+        coalesce(d.area, 0 < coalesce(a.area, 1)
      ) c WHERE rank = 1);
      
 ALTER TABLE label_points ADD COLUMN visitors_direction numeric;
@@ -56,5 +56,5 @@ SET
         label_points a JOIN label_points b ON a.unit_code != b.unit_code
       WHERE
         a.unit_code = d.unit_code AND
-        coalesce(d.visitors, 1) > coalesce(a.visitors, 0)
+        coalesce(d.visitors, 0) < coalesce(a.visitors, 1)
      ) c WHERE rank = 1);
