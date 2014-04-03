@@ -1,10 +1,3 @@
-#nps_park_points{
-  marker-fill: #5D924D  ;
-  marker-line-color: #4C7300  ;
-  marker-allow-overlap: true;
-  marker-opacity: 0.7;
-  marker-width: 6;
-  }
 #NPS_Park_Labels[zoom>=5]{
   [zoom=5][area_buffer_500km<2],
   [zoom=5][visitors_buffer_1000km<2],  
@@ -18,13 +11,11 @@
   [zoom=8][area_buffer_50km<2],
   [zoom=8][visitors_buffer_125km<2],
   [zoom=8][minzoompoly<=8],
-  [zoom=9][area_buffer_250km<4],
-  [zoom=9][area_buffer_125km<8],
-  [zoom=9][area_buffer_25km<4],
-  //[zoom=9][minzoompoly<=9],  
-  [zoom=10][area_buffer_250km<4],
-  [zoom=10][area_buffer_125km<8],
-  [zoom=10][area_buffer_25km<5],
+  [zoom=9][area_buffer_50km<2],
+  [zoom=9][visitors_buffer_25km<2],
+  [zoom=9][minzoompoly<=9],  
+  [zoom=10][area_buffer_25km<2],
+  [zoom=10][visitors_buffer_25km<3],
   [zoom=10][minzoompoly<=10], 
   [zoom=11][area_buffer_250km<4],
   [zoom=11][area_buffer_125km<8],
