@@ -27,7 +27,7 @@ ALTER TABLE label_points ADD COLUMN area_direction numeric;
 UPDATE
   label_points d
 SET
-  area_direction = (
+  area_direction = coalesce((
     SELECT dir from (
       SELECT
         b.unit_code,
@@ -39,13 +39,13 @@ SET
         coalesce(b.area, 1) < coalesce(a.area, 0)
       WHERE
         a.unit_code = d.unit_code
-     ) c WHERE rank = 1);
+     ) c WHERE rank = 1), 225);
      
 ALTER TABLE label_points ADD COLUMN visitors_direction numeric;
 UPDATE
   label_points d
 SET
-  visitors_direction = (
+  visitors_direction = coalesce((
     SELECT dir from (
       SELECT
         b.unit_code,
@@ -57,4 +57,4 @@ SET
         coalesce(b.visitors, 1) > coalesce(a.visitors, 0)
       WHERE
         a.unit_code = d.unit_code
-     ) c WHERE rank = 1);
+     ) c WHERE rank = 1), 225);
