@@ -76,13 +76,13 @@ as data
 -- labels
 
 (SELECT 
- (SELECT 
 label_point,
 designation,
 name,
 display_name,
 display_designation,
 display_concatenated,
+minzoompoly,
 area,
 visitors,
 area_buffer_1000km,
@@ -101,6 +101,8 @@ visitors_buffer_50km,
 visitors_buffer_25km
 FROM
 label_points
+WHERE
+label_point IS NOT NULL
 ORDER BY
 area desc, visitors desc) as data
 
@@ -127,5 +129,7 @@ visitors_buffer_50km,
 visitors_buffer_25km
 FROM
 label_points
+WHERE
+point_geom IS NOT NULL
 ORDER BY
 area desc, visitors desc) as data
