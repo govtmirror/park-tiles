@@ -75,7 +75,7 @@ as data
 
 -- nps park labels
 
-(SELECT 
+((SELECT 
 label_point,
 designation,
 name,
@@ -86,19 +86,24 @@ minzoompoly,
 area,
 visitors,
 area_buffer_1000km,
-area_buffer_25km,
 area_buffer_750km,
 area_buffer_500km,
 area_buffer_250km,
 area_buffer_125km,
 area_buffer_50km,
+area_buffer_25km,
 visitors_buffer_1000km,
 visitors_buffer_750km,
 visitors_buffer_500km,
 visitors_buffer_250km,
 visitors_buffer_125km,
 visitors_buffer_50km,
-visitors_buffer_25km
+visitors_buffer_25km,
+area_dist,
+area_direction,
+visitors_dist,
+visitors_direction,
+urban_area
 FROM
 label_points
 WHERE
