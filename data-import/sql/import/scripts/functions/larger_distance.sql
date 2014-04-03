@@ -35,10 +35,10 @@ SET
         st_distance(a.point_geom, b.point_geom) dist,
         degrees(st_azimuth(st_closestpoint(a.point_geom, b.point_geom), st_closestpoint(b.point_geom, a.point_geom))) dir
       FROM
-        label_points a JOIN label_points b ON a.unit_code != b.unit_code
+        label_points a JOIN label_points b ON a.unit_code != b.unit_code  AND
+        coalesce(b.area, 1) < coalesce(a.area, 0)
       WHERE
-        a.unit_code = d.unit_code AND
-        coalesce(d.area, 0 < coalesce(a.area, 1)
+        a.unit_code = d.unit_code
      ) c WHERE rank = 1);
      
 ALTER TABLE label_points ADD COLUMN visitors_direction numeric;
@@ -53,8 +53,8 @@ SET
         st_distance(a.point_geom, b.point_geom) dist,
         degrees(st_azimuth(st_closestpoint(a.point_geom, b.point_geom), st_closestpoint(b.point_geom, a.point_geom))) dir
       FROM
-        label_points a JOIN label_points b ON a.unit_code != b.unit_code
+        label_points a JOIN label_points b ON a.unit_code != b.unit_code AND
+        coalesce(b.visitors, 1) > coalesce(a.visitors, 0)
       WHERE
-        a.unit_code = d.unit_code AND
-        coalesce(d.visitors, 0) < coalesce(a.visitors, 1)
+        a.unit_code = d.unit_code
      ) c WHERE rank = 1);
