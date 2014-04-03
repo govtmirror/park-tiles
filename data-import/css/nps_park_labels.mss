@@ -26,21 +26,21 @@
   [zoom=12][area_buffer_25km<12],
   [zoom=12][minzoompoly<=12],
   [zoom>=13]  
-    {
+  {
     text-name: [name];
-  text-face-name: @ft_bold;
-  text-size: 11;
-  text-min-distance: 20;
-  text-fill: #194000  ;
+    text-face-name: @ft_bold;
+
+text-size: 11;
+    text-min-distance: 20;
+    text-fill: #194000;
     text-halo-fill: white;
-  text-halo-radius: 2;
+    text-halo-radius: 2;
     text-allow-overlap: true;
     text-placement-type: simple;
     text-placements: "NE,NW,SE,SW";
-  text-dy: 1;
-  text-dx: 1;
+    text-dy: 1;
+    text-dx: 1;
     text-wrap-width: 100;
-
     text-avoid-edges: true;
-    }
-    }
+  }
+}
