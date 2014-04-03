@@ -202,4 +202,35 @@ WHERE
   label_points.poly_geom IS NULL AND
   label_points.point_geom IS NOT NULL; 
 
+-- Fix some data problems
+
+UPDATE
+  label_points
+SET
+  name = 'Theodore Roosevelt Birthplace',
+  display_name = 'Theodore Roosevelt Birthplace NHS',
+  display_concatenated = 'Theodore Roosevelt Birthplace National Historic Site',
+  display_state = 'New York'
+WHERE
+  unit_code = 'THRB';
+  
+
+UPDATE
+  label_points
+SET
+  name = 'Denali'
+WHERE
+  name = 'Denali National Park'
+  
+UPDATE
+  label_points
+SET
+  name = 'Sequoia'
+WHERE
+  name = 'Sequoia National Park'
+  
+  
+-- Urban points
+
+
 --select * from label_points;
