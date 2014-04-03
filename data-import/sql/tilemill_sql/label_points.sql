@@ -242,4 +242,35 @@ SET
 WHERE
   unit_code = 'VALR';
   
+  
+--- Shorten More Names
+--"Charles Young Buffalo Soldiers National Monument"
+UPDATE
+  label_points
+SET
+  name = 'Charles Young Buffalo Soldiers'
+WHERE
+  name = 'Charles Young Buffalo Soldiers National Monument';
+--"C&O Canal National Historical Park"
+UPDATE
+  label_points
+SET
+  name = 'C&O Canal'
+WHERE
+  name = 'C&O Canal National Historical Park';
+--"Mary McLeod Bethune Council House National Historic Site"
+UPDATE
+  label_points
+SET
+  name = 'Mary McLeod Bethune Council House'
+WHERE
+  name = 'Mary McLeod Bethune Council House National Historic Site';
+--"Lower Saint Croix National Scenic Riverway"
+UPDATE
+  label_points
+SET
+  name = 'Lower Saint Croix'
+WHERE
+  name = 'Lower Saint Croix National Scenic Riverway';
+  
 --select * from label_points;
