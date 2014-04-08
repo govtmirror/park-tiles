@@ -93,13 +93,151 @@ UPDATE label_point_calc SET direction = 'SE' WHERE (SELECT name FROM label_point
  minzoompoly<=5 AND visitors_dist>300000
 ) from label_points where label_points.unit_code = label_point_calc.unit_code)*/
 
+
 -- Zoom level 5
 ALTER TABLE label_point_calc ADD COLUMN show_label_5 boolean;
 UPDATE label_point_calc SET show_label_5 =
 --SELECT unit_code, 
 (SELECT  ((
-  minzoompoly<=5 OR
-  visitors_dist>300000
+minzoompoly<=5 OR
+visitors_dist>300000
+  ) AND (
+    has_label = 't'
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 6
+ALTER TABLE label_point_calc ADD COLUMN show_label_6 boolean;
+UPDATE label_point_calc SET show_label_6 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=6 OR
+visitors_dist>150000
+  ) AND (
+    has_label = 't'
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 7
+ALTER TABLE label_point_calc ADD COLUMN show_label_7 boolean;
+UPDATE label_point_calc SET show_label_7 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=7 OR
+visitors_dist>75000
+  ) AND (
+    has_label = 't'
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 8
+ALTER TABLE label_point_calc ADD COLUMN show_label_8 boolean;
+UPDATE label_point_calc SET show_label_8 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=8 OR
+visitors_dist>35000
+  ) AND (
+    has_label = 't'
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 9
+ALTER TABLE label_point_calc ADD COLUMN show_label_9 boolean;
+UPDATE label_point_calc SET show_label_9 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=8 OR
+visitors_dist>20000
+  ) AND (
+    has_label = 't'
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 10
+ALTER TABLE label_point_calc ADD COLUMN show_label_10 boolean;
+UPDATE label_point_calc SET show_label_10 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=9 OR
+visitors_dist>15000
+  ) AND (
+    has_label = 't'
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 11
+ALTER TABLE label_point_calc ADD COLUMN show_label_11 boolean;
+UPDATE label_point_calc SET show_label_11 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=10 OR
+visitors_dist>5000
+  ) AND (
+    has_label = 't' AND
+    urban_area > 8
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 12
+ALTER TABLE label_point_calc ADD COLUMN show_label_12 boolean;
+UPDATE label_point_calc SET show_label_12 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=11 OR
+visitors_dist>2500
+  ) AND (
+    has_label = 't' AND
+    urban_area > 8
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 13
+ALTER TABLE label_point_calc ADD COLUMN show_label_13 boolean;
+UPDATE label_point_calc SET show_label_13 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=12 OR
+visitors_dist>1500
+  ) AND (
+    has_label = 't' AND
+    urban_area > 8
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 14
+ALTER TABLE label_point_calc ADD COLUMN show_label_14 boolean;
+UPDATE label_point_calc SET show_label_14 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=13 OR
+visitors_dist>1500
+  ) AND (
+    has_label = 't' AND
+    urban_area > 8
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 15
+ALTER TABLE label_point_calc ADD COLUMN show_label_15 boolean;
+UPDATE label_point_calc SET show_label_15 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=14 OR
+visitors_dist>800
+  ) AND (
+    has_label = 't' AND
+    urban_area > 8
+)) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
+--FROM label_point_calc;
+
+-- Zoom level 16
+ALTER TABLE label_point_calc ADD COLUMN show_label_16 boolean;
+UPDATE label_point_calc SET show_label_16 =
+--SELECT unit_code, 
+(SELECT  ((
+minzoompoly<=14 OR
+visitors_dist>800
   ) AND (
     has_label = 't'
 )) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
