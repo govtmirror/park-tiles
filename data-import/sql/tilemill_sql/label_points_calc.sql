@@ -31,7 +31,10 @@ UPDATE label_points SET has_label = 'f' WHERE unit_code = 'FRED';
 -- Virgin Islands
 UPDATE label_points SET has_label = 'f' WHERE unit_code = 'VICR';
 
+-- The rest
+UPDATE label_points set has_label = 't' where has_label is null;
 
+-- Do the point calculations
 CREATE TABLE label_point_calc AS (SELECT unit_code FROM label_points);
 
 -- Directions
