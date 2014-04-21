@@ -1,4 +1,3 @@
-
 -- Some name corrections
 
 --"Baltimore National Heritage Area" needs to be named "Baltimore"
@@ -8,6 +7,21 @@ UPDATE label_points SET name = 'Congaree' WHERE name = 'Congaree National Park';
 
 -- Illinois & Michigan Canal has a space after it for some reason
 UPDATE label_points set name = 'Illinois & Michigan Canal' where name like 'Illinois & Michigan Canal%';
+
+-- And some others
+UPDATE label_points set name = 'Lake Mead' where name like 'Lake Mead%';
+UPDATE label_points set name = 'Rock Creek' where name like 'Rock Creek%';
+UPDATE label_points set name = 'Tupelo' where name like 'Tupelo%';
+
+-- catch all
+UPDATE label_points set name = 
+regexp_replace(replace(trim(name), '  ', ' '), '\r|\n', '', 'g');
+
+
+-- disp concatencated has issues too!
+UPDATE label_points set display_concatenated = 
+regexp_replace(replace(trim(display_concatenated), '  ', ' '), '\r|\n', '', 'g');
+
 
 -- Duplicates
 ALTER TABLE label_points ADD COLUMN has_label boolean;
@@ -243,3 +257,97 @@ visitors_dist>800
 )) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
 --FROM label_point_calc;
 
+--- More Custom directions
+
+ UPDATE label_point_calc SET direction = 'NW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Fort Larned');
+
+  UPDATE label_point_calc SET direction = 'NW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Joshua Tree');
+
+  UPDATE label_point_calc SET direction = 'S'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Channel Islands');
+  
+  --[name='Sequoia']{text-placements:"W";}
+  UPDATE label_point_calc SET direction = 'W'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Sequoia');
+
+  --[name='Lake Mead']{text-placements:"SW";}
+  UPDATE label_point_calc SET direction = 'SW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Lake Mead ');
+
+   --[name='Lake Mead']{text-placements:"SW";}
+  UPDATE label_point_calc SET direction = 'SW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Lake Mead');
+  
+  --[name='Mount Rushmore']{text-placements:"NW";} 
+  UPDATE label_point_calc SET direction = 'NW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Mount Rushmore');
+  
+  --[name='Cuyahoga Valley']{text-placements:"S";} 
+  UPDATE label_point_calc SET direction = 'S'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Cuyahoga Valley');
+  
+  --[name='Sleeping Bear Dunes']{text-placements:"SE";} 
+  UPDATE label_point_calc SET direction = 'SE'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Sleeping Bear Dunes');
+  
+  --[name='Isle Royale']{text-placements:"S";} 
+  UPDATE label_point_calc SET direction = 'S'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Isle Royale');
+  
+  --[name='Everglades']{text-placements:"SW";}
+  UPDATE label_point_calc SET direction = 'SW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Everglades');
+  
+  --[zoom<=8][name='Whiskeytown']{text-placements:"NE";}
+  UPDATE label_point_calc SET direction = 'NE'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Whiskeytown');
+  
+  --[name='Saguaro']{text-placements:"SW";}
+  UPDATE label_point_calc SET direction = 'SW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Saguaro');
+  
+  --[name='Chamizal']{text-placements:"NW";}
+  UPDATE label_point_calc SET direction = 'NW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Chamizal');
+  
+  --[name='Central High School']{text-placements:"S";}
+  UPDATE label_point_calc SET direction = 'S'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Central High School');
+  
+  --[name='Fort Vancouver']{text-placements:"NE";}
+  UPDATE label_point_calc SET direction = 'NE'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Fort Vancouver');
+  
+  --[name='Stones River']{text-placements:"NE";}
+  UPDATE label_point_calc SET direction = 'NE'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Stones River');
+  
+  --[name='Ocmulgee']{text-placements:"SW";}
+  UPDATE label_point_calc SET direction = 'SW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Ocmulgee');
+  
+  --[name='Vanderbilt Mansion']{text-placements:"NW";}
+  UPDATE label_point_calc SET direction = 'NW'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Vanderbilt Mansion');
+  
+  --[name='Harpers Ferry']{text-placements:"W";}
+  UPDATE label_point_calc SET direction = 'W'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Harpers Ferry');
+  
+  --[name='Knife River Indian Villages']{text-placements:"E";}
+  UPDATE label_point_calc SET direction = 'E'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Knife River Indian Villages');
+  
+  --[name='Guilford Courthouse']{text-placements:"N";}
+  UPDATE label_point_calc SET direction = 'N'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Guilford Courthouse');
+
+  --[name='Black Canyon of the Gunnison']{text-placements:"N";}
+  UPDATE label_point_calc SET direction = 'N'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Black Canyon Of The Gunnison');
+
+  --[name='Curecanti']{text-placements:"E";}
+  UPDATE label_point_calc SET direction = 'E'
+  WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Curecanti');
