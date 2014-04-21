@@ -45,6 +45,9 @@ UPDATE label_points SET has_label = 'f' WHERE unit_code = 'FRED';
 -- Virgin Islands
 UPDATE label_points SET has_label = 'f' WHERE unit_code = 'VICR';
 
+--
+UPDATE label_points SET has_label = 'f' WHERE unit_code = 'GOGA';
+
 -- The rest
 UPDATE label_points set has_label = 't' where has_label is null;
 
