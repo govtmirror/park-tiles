@@ -113,66 +113,76 @@ area desc, visitors desc) as data
 
 -- nps park points
 
-(SELECT 
-point_geom,
-designation,
-name,
-minzoompoly,
-area_buffer_1000km,
-area_buffer_25km,
-area_buffer_750km,
-area_buffer_500km,
-area_buffer_250km,
-area_buffer_125km,
-area_buffer_50km,
-visitors_buffer_1000km,
-visitors_buffer_750km,
-visitors_buffer_500km,
-visitors_buffer_250km,
-visitors_buffer_125km,
-visitors_buffer_50km,
-visitors_buffer_25km
-FROM
-label_points
-WHERE
-point_geom IS NOT NULL
-ORDER BY
-area desc, visitors desc) as data
-
-
--- Labels
-((SELECT 
-label_point,
-CASE
-  WHEN z(!scale_denominator!) = 10 AND minzoompoly <= 6 THEN display_concatenated
-  WHEN z(!scale_denominator!) = 11 AND minzoompoly <= 7 THEN display_concatenated  
-  WHEN z(!scale_denominator!) = 12 AND minzoompoly <= 8 THEN display_concatenated  
-  WHEN z(!scale_denominator!) = 13 AND minzoompoly <= 9 THEN display_concatenated  
-  WHEN z(!scale_denominator!) = 13 AND minzoompoly <= 9 THEN display_concatenated  
-  WHEN z(!scale_denominator!) = 14 AND minzoompoly <= 10 THEN display_concatenated  
-  WHEN z(!scale_denominator!) = 15 AND minzoompoly <= 11 THEN display_concatenated  
-  WHEN z(!scale_denominator!) = 16 AND minzoompoly <= 12 THEN display_concatenated  
-  WHEN z(!scale_denominator!) > 16 THEN display_concatenated  
-  ELSE name END as name,
-CASE
-  WHEN z(!scale_denominator!) = 5 THEN (SELECT show_label_5 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
-  WHEN z(!scale_denominator!) = 6 THEN (SELECT show_label_6 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)  
-  WHEN z(!scale_denominator!) = 7 THEN (SELECT show_label_7 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)  
-  WHEN z(!scale_denominator!) = 8 THEN (SELECT show_label_8 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)  
-  WHEN z(!scale_denominator!) = 9 THEN (SELECT show_label_9 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
-  WHEN z(!scale_denominator!) = 10 THEN (SELECT show_label_10 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code) 
-  WHEN z(!scale_denominator!) = 11 THEN (SELECT show_label_11 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
-  WHEN z(!scale_denominator!) = 12 THEN (SELECT show_label_12 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code) 
-  WHEN z(!scale_denominator!) = 13 THEN (SELECT show_label_13 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
-  WHEN z(!scale_denominator!) = 14 THEN (SELECT show_label_14 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code) 
-  WHEN z(!scale_denominator!) = 15 THEN (SELECT show_label_15 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
-  WHEN z(!scale_denominator!) = 16 THEN (SELECT show_label_16 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
-  WHEN z(!scale_denominator!) > 16 THEN 't'
-  ELSE 'f' END as display_label,
-(SELECT direction FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code) as ldir
-FROM
-label_points
-WHERE
-label_point IS NOT NULL
-ORDER BY
-visitors desc) as data
+        (SELECT
+        point_geom,
+        name as short_name,
+        display_concatenated as long_name,
+        CASE
+          WHEN z(!scale_denominator!) = 5 AND minzoompoly <= 0 THEN 't'
+          WHEN z(!scale_denominator!) = 6 AND minzoompoly <= 1 THEN 't'
+          WHEN z(!scale_denominator!) = 7 AND minzoompoly <= 2 THEN 't'
+          WHEN z(!scale_denominator!) = 8 AND minzoompoly <= 3 THEN 't'
+          WHEN z(!scale_denominator!) = 9 AND minzoompoly <= 4 THEN 't'
+          WHEN z(!scale_denominator!) = 10 AND minzoompoly <= 5 THEN 't'
+          WHEN z(!scale_denominator!) = 11 AND minzoompoly <= 6 THEN 't'
+          WHEN z(!scale_denominator!) = 12 AND minzoompoly <= 7 THEN 't'
+          WHEN z(!scale_denominator!) = 13 AND minzoompoly <= 8 THEN 't'
+          WHEN z(!scale_denominator!) = 14 AND minzoompoly <= 9 THEN 't'
+          WHEN z(!scale_denominator!) = 15 AND minzoompoly <= 10 THEN 't'
+          WHEN z(!scale_denominator!) = 16 AND minzoompoly <= 11 THEN 't'
+          WHEN z(!scale_denominator!) > 16 THEN 't'
+          ELSE 'f' END as is_long_name,
+        CASE
+          WHEN z(!scale_denominator!) = 5 AND minzoompoly <= 0 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 6 AND minzoompoly <= 1 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 7 AND minzoompoly <= 2 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 8 AND minzoompoly <= 3 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 9 AND minzoompoly <= 4 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 10 AND minzoompoly <= 5 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 11 AND minzoompoly <= 6 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 12 AND minzoompoly <= 7 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 13 AND minzoompoly <= 8 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 14 AND minzoompoly <= 9 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 15 AND minzoompoly <= 10 THEN display_concatenated
+          WHEN z(!scale_denominator!) = 16 AND minzoompoly <= 11 THEN display_concatenated
+          WHEN z(!scale_denominator!) > 16 THEN display_concatenated
+          ELSE name END as name,
+        CASE
+          WHEN z(!scale_denominator!) = 5 THEN (SELECT show_label_5 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 6 THEN (SELECT show_label_6 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 7 THEN (SELECT show_label_7 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 8 THEN (SELECT show_label_8 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 9 THEN (SELECT show_label_9 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 10 THEN (SELECT show_label_10 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 11 THEN (SELECT show_label_11 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 12 THEN (SELECT show_label_12 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 13 THEN (SELECT show_label_13 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 14 THEN (SELECT show_label_14 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 15 THEN (SELECT show_label_15 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) = 16 THEN (SELECT show_label_16 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code)
+          WHEN z(!scale_denominator!) > 16 THEN 't'
+          ELSE 'f' END as display_label,
+          COALESCE(
+            (SELECT direction FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code),
+            CASE
+          WHEN area_direction > 337.75 OR area_direction < 22.5 THEN 'S'
+          WHEN area_direction > 22.5 AND area_direction < 67.5 THEN 'SW'
+          WHEN area_direction > 67.5 AND area_direction < 112.5 THEN 'W'
+          WHEN area_direction > 112.5 AND area_direction < 157.5 THEN 'NW'
+          WHEN area_direction > 157.5 AND area_direction < 202.5 THEN 'N'
+          WHEN area_direction > 202.5 AND area_direction < 247.5 THEN 'NE'
+          WHEN area_direction > 247.5 AND area_direction < 292.5 THEN 'E'
+          WHEN area_direction > 292.5 AND area_direction < 337.5 THEN 'SE'
+           ELSE ''
+           END) as ldir,
+         urban_area,
+         has_label,
+         (SELECT show_label_15 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code) as show_label_15,
+         (SELECT show_label_16 FROM label_point_calc WHERE label_points.unit_code = label_point_calc.unit_code) as show_label_16,
+          minzoompoly
+        FROM
+        label_points
+        WHERE
+        label_point IS NOT NULL
+        ORDER BY
+        visitors desc) as data
