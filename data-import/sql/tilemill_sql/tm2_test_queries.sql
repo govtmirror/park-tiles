@@ -46,6 +46,11 @@ AS data
 
 (select way, "FCategory", name, z_order from planet_osm_point order by z_order desc) as data
 
+-- April 22 nps_places_poi
+    (select "FCategory", name, unit_code,
+           z_order, way, minzoompoly
+           from places_points order by z_order desc) as data
+
 -- nps_park_points (old, see below)
 
 (select point_geom, 
