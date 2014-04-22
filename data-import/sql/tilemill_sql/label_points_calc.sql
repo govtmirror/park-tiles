@@ -375,3 +375,38 @@ visitors_dist>800
   --[name='Curecanti']{text-placements:"E";}
   UPDATE label_point_calc SET direction = 'E'
   WHERE unit_code in (SELECT UNIT_CODE FROM label_points where name = 'Curecanti');
+  
+  -- Even More Tweaks
+  UPDATE label_point_calc
+SET
+show_label_5 = false,
+show_label_6 = false,
+show_label_7 = false,
+show_label_8 = false,
+show_label_9 = false,
+show_label_10 = false,
+show_label_11 = true,
+show_label_12 = true,
+show_label_13 = true,
+show_label_14 = true,
+show_label_15 = true,
+show_label_16 = true
+WHERE
+unit_code = 'MALL'
+
+UPDATE label_point_calc
+SET
+show_label_5 = false,
+show_label_6 = false,
+show_label_7 = false,
+show_label_8 = false,
+show_label_9 = false,
+show_label_10 = false,
+show_label_11 = false,
+show_label_12 = false,
+show_label_13 = false,
+show_label_14 = true,
+show_label_15 = true,
+show_label_16 = true
+WHERE
+unit_code = 'LINC'
