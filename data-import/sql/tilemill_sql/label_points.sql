@@ -274,3 +274,14 @@ WHERE
   name = 'Lower Saint Croix National Scenic Riverway';
   
 --select * from label_points;
+
+-- remove some extra polygons from Lake Mead
+UPDATE label_points
+SET poly_geom = COALESCE(
+  (SELECT geom
+   FROM
+     (SELECT (st_dump(poly_geom)).path, ((st_dump(poly_geom)).geom), (st_dump(poly_geom)).path @> ARRAY[5] AS path5
+      FROM label_points
+      WHERE unit_code = 'LAKE') a
+   WHERE path5), poly_geom)
+WHERE unit_code = 'LAKE';
