@@ -12,12 +12,12 @@ WHERE
   unit_code = 'GRCA';
   
   
--- Boston- 42.35914/-71.05933
+-- Boston- 42.37261/-71.05548
 UPDATE
   label_points
 SET
-  point_geom = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-71.05933 42.35914)', 4326), 3857)),
-  label_point = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-71.05933 42.35914)', 4326), 3857))
+  point_geom = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-71.05548 42.37261)', 4326), 3857)),
+  label_point = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-71.05548 42.37261)', 4326), 3857))
 WHERE
   unit_code = 'BOST';
   
