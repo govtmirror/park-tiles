@@ -20,6 +20,15 @@ SET
   label_point = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-71.05933 42.35914)', 4326), 3857))
 WHERE
   unit_code = 'BOST';
+  
+-- Balitmore- 39.33031/-76.61872
+UPDATE
+  label_points
+SET
+  point_geom = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-76.61872 39.33031)', 4326), 3857)),
+  label_point = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-76.61872 39.33031)', 4326), 3857))
+WHERE
+  unit_code = 'BALT';
 
 --"Baltimore National Heritage Area" needs to be named "Baltimore"
 UPDATE label_points SET name = 'Baltimore' WHERE name = 'Baltimore National Heritage Area';
