@@ -41,7 +41,7 @@ UPDATE label_point_calc SET show_label_zoom = 7 WHERE unit_code = 'FOST';
 
 
 -- George Washington 10
-UPDATE label_point_calc SET show_label_zoom = 7 WHERE unit_code = 'GWMP';
+UPDATE label_point_calc SET show_label_zoom = 10 WHERE unit_code = 'GWMP';
 
 -- New York City Parks
 -- STLI NW 11
