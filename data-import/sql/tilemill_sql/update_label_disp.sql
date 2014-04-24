@@ -198,14 +198,14 @@ WHERE UNIT_CODE = 'MLKM';
 --MABE and MAMC need to be merged
 UPDATE label_points
 SET has_label = false 
-WHERE UNIT_CODE = 'MAMC'
+WHERE UNIT_CODE = 'MAMC';
 
 --no display on "OBRI"
 UPDATE label_points
 SET has_label = false 
-WHERE UNIT_CODE = 'OBRI'
+WHERE UNIT_CODE = 'OBRI';
 
 --Whitman at 7
 UPDATE label_point_calc
 SET show_label_zoom = 7 
-WHERE UNIT_CODE = 'WHMI'
+WHERE UNIT_CODE = 'WHMI';
