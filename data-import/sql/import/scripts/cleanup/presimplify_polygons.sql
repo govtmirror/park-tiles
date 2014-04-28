@@ -38,3 +38,12 @@ FROM
   label_points
 WHERE
   poly_geom is not null;
+
+-- Linear parks doesn't look good when they get really simplified
+UPDATE label_point_simplified SET
+  poly_geom_5 = poly_geom_9,
+  poly_geom_6 = poly_geom_9,
+  poly_geom_7 = poly_geom_9,
+  poly_geom_8 = poly_geom_9
+WHERE
+  unit_code IN ('APPA', 'CHOH', 'BLRI');
