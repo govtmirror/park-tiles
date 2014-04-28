@@ -207,18 +207,6 @@ visitors_dist>800
 )) FROM label_points where label_points.unit_code = label_point_calc.unit_code);
 --FROM label_point_calc;
 
--- Add a key for tm2
-ALTER TABLE label_points ADD COLUMN tm2_key smallint;
-UPDATE label_points SET tm2_key = (
-  SELECT
-    key
-  FROM (
-    SELECT
-      row_number() over (ORDER BY lb2.unit_code) AS key,
-      unit_code FROM label_points lb2
-   ) a WHERE a.unit_code = label_points.unit_code
- );
-
 --- More Custom directions
 
  UPDATE label_point_calc SET direction = 'NW'
