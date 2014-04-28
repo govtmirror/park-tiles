@@ -1,3 +1,6 @@
+-- nps_park_polys
+
+DROP TABLE render_park_polys;
 CREATE TABLE render_park_polys AS
 SELECT
   CASE WHEN minzoompoly <= 5 THEN true else false END AS display_poly_5,
@@ -46,7 +49,8 @@ SELECT
   label_points.poly_geom,
   label_points.minzoompoly,
   label_points.name,
-  label_points.tm2_key
+  label_points.tm2_key,
+  label_points.area
 FROM
   label_points JOIN
     label_point_simplified ON
