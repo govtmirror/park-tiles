@@ -77,6 +77,19 @@ UPDATE label_points SET area_bbox = ST_AREA(ST_Envelope(poly_geom));
 ALTER TABLE label_points ADD COLUMN area_ratio numeric;
 UPDATE label_points SET area_ratio = area/area_bbox;
 
+
+-- Add a key for tm2
+ALTER TABLE label_points ADD COLUMN tm2_key smallint;
+UPDATE label_points SET tm2_key = (
+  SELECT
+    key
+  FROM (
+    SELECT
+      row_number() over (ORDER BY lb2.unit_code) AS key,
+      unit_code FROM label_points lb2
+   ) a WHERE a.unit_code = label_points.unit_code
+ );
+
 -- 'Fixing geoms'
 UPDATE label_points SET poly_geom = ST_MULTI(st_buffer(poly_geom,0));
 
