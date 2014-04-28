@@ -1,12 +1,13 @@
 --presimplify
 
-create or replace function zres(z float)
-    returns float
-    language plpgsql immutable
-as $func$
-begin
-    return (40075016.6855785/(256*2^z));
-end;
+-- Add a function that will take a scale and return a resolution
+CREATE OR REPLACE FUNCTION zres(z float)
+    RETURNS float
+    LANGUAGE PLPGSQL IMMUTABLE
+AS $func$
+BEGIN
+    RETURN (40075016.6855785/(256*2^z));
+END;
 $func$;
 
 CREATE OR REPLACE FUNCTION public.z(scaledenominator numeric)
@@ -21,18 +22,18 @@ BEGIN
 END;
 $func$;
 
-
+-- Simplify the polygons
 ALTER TABLE label_points ADD COLUMN poly_geom_5 geometry;
-UPDATE label_points SET poly_geom_5 = ST_SIMPLIFY(poly_geom, zres(5));
+UPDATE label_points SET poly_geom_5 = ST_SIMPLIFY(poly_geom, zres(5)) WHERE unit_code NOT IN ('APPA', 'CHOH');
 
 ALTER TABLE label_points ADD COLUMN poly_geom_6 geometry;
-UPDATE label_points SET poly_geom_6 = ST_SIMPLIFY(poly_geom, zres(6));
+UPDATE label_points SET poly_geom_6 = ST_SIMPLIFY(poly_geom, zres(6)) WHERE unit_code NOT IN ('APPA', 'CHOH');
 
 ALTER TABLE label_points ADD COLUMN poly_geom_7 geometry;
-UPDATE label_points SET poly_geom_7 = ST_SIMPLIFY(poly_geom, zres(7));
+UPDATE label_points SET poly_geom_7 = ST_SIMPLIFY(poly_geom, zres(7)) WHERE unit_code NOT IN ('APPA', 'CHOH');
 
 ALTER TABLE label_points ADD COLUMN poly_geom_8 geometry;
-UPDATE label_points SET poly_geom_8 = ST_SIMPLIFY(poly_geom, zres(8));
+UPDATE label_points SET poly_geom_8 = ST_SIMPLIFY(poly_geom, zres(8)) WHERE unit_code NOT IN ('APPA', 'CHOH');
 
 ALTER TABLE label_points ADD COLUMN poly_geom_9 geometry;
 UPDATE label_points SET poly_geom_9 = ST_SIMPLIFY(poly_geom, zres(9));
