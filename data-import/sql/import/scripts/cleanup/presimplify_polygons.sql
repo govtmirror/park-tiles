@@ -22,27 +22,19 @@ BEGIN
 END;
 $func$;
 
--- Simplify the polygons
-ALTER TABLE label_points ADD COLUMN poly_geom_5 geometry;
-UPDATE label_points SET poly_geom_5 = ST_SIMPLIFY(poly_geom, zres(5)) WHERE unit_code NOT IN ('APPA', 'CHOH');
-
-ALTER TABLE label_points ADD COLUMN poly_geom_6 geometry;
-UPDATE label_points SET poly_geom_6 = ST_SIMPLIFY(poly_geom, zres(6)) WHERE unit_code NOT IN ('APPA', 'CHOH');
-
-ALTER TABLE label_points ADD COLUMN poly_geom_7 geometry;
-UPDATE label_points SET poly_geom_7 = ST_SIMPLIFY(poly_geom, zres(7)) WHERE unit_code NOT IN ('APPA', 'CHOH');
-
-ALTER TABLE label_points ADD COLUMN poly_geom_8 geometry;
-UPDATE label_points SET poly_geom_8 = ST_SIMPLIFY(poly_geom, zres(8)) WHERE unit_code NOT IN ('APPA', 'CHOH');
-
-ALTER TABLE label_points ADD COLUMN poly_geom_9 geometry;
-UPDATE label_points SET poly_geom_9 = ST_SIMPLIFY(poly_geom, zres(9));
-
-ALTER TABLE label_points ADD COLUMN poly_geom_10 geometry;
-UPDATE label_points SET poly_geom_10 = ST_SIMPLIFY(poly_geom, zres(10));
-
-ALTER TABLE label_points ADD COLUMN poly_geom_11 geometry;
-UPDATE label_points SET poly_geom_11 = ST_SIMPLIFY(poly_geom, zres(11));
-
-ALTER TABLE label_points ADD COLUMN poly_geom_12 geometry;
-UPDATE label_points SET poly_geom_12 = ST_SIMPLIFY(poly_geom, zres(12));
+CREATE TABLE label_point_simplified AS
+SELECT
+  unit_code,
+  poly_geom,
+  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_5,
+  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_6,
+  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_7,
+  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_8,
+  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_9,
+  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_10,
+  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_11,
+  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_12
+FROM
+  label_points
+WHERE
+  poly_geom is not null;
