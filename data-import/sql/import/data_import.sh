@@ -1,7 +1,5 @@
 DATABASE_NAME=data_import
 
-file_tbl_aggregated="./scripts/views/npmap_all_parks.sql"
-file_tbl_aggregated_updates="./scripts/views/npmap_all_parks_updates.sql"
 file_post_import="./scripts/tm2_post_import.sh"
 file_empty_to_null="./scripts/functions/empty_to_null.sql"
 tbl_park_attributes=park_attributes
@@ -73,16 +71,6 @@ echo "******** Add the nps_visitors boundary ********"
 sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_nps_visitors (name varchar, visitors numeric);"
 sudo -u postgres psql -d $DATABASE_NAME -c "COPY $tbl_nps_visitors FROM '`pwd`/../data/park_visitors.csv' DELIMITER ',' CSV;"
 echo "Table $tbl_nps_visitors created"
-
-# vis mapping table
-# CREATE TABLE visitor_mappings (visitors_name varchar, npmap_name varchar, comment varchar);
-
-
-# Add the aggregated table
-echo "******** Add the aggregated table ********"
-sudo -u postgres psql -d $DATABASE_NAME -c "CREATE TABLE $tbl_aggregated AS `cat $file_tbl_aggregated`"
-sudo -u postgres psql -d $DATABASE_NAME -c "ALTER TABLE "$tbl_aggregated" ADD CONSTRAINT "$tbl_aggregated"_pk PRIMARY KEY (park_name);"
-echo "Table $tbl_aggregated created"
 
 # Run the park inset script
 echo "******** Run the park inset script ********"
