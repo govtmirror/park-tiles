@@ -1,5 +1,6 @@
 --DROP TABLE label_points;
 
+-- Create the label_points table
 CREATE TABLE label_points as (
 SELECT irma_wsd.poly_geom AS poly_geom,
        irma_wsd.point_geom AS point_geom,
@@ -202,86 +203,3 @@ WHERE
   label_points.poly_geom IS NULL AND
   label_points.point_geom IS NOT NULL; 
 
--- Fix some data problems
-
--- 'Theodore Roosevelt Birthplace' is named wrong in the database 
-
-UPDATE
-  label_points
-SET
-  name = 'Theodore Roosevelt Birthplace',
-  display_name = 'Theodore Roosevelt Birthplace NHS',
-  display_concatenated = 'Theodore Roosevelt Birthplace National Historic Site',
-  display_state = 'New York'
-WHERE
-  unit_code = 'THRB';
-  
-
--- Shorten the Denali National Park description
-UPDATE
-  label_points
-SET
-  name = 'Denali'
-WHERE
-  name = 'Denali National Park'
-
--- Shorten the Sequoia National Park description
-UPDATE
-  label_points
-SET
-  name = 'Sequoia'
-WHERE
-  name = 'Sequoia National Park'
- 
--- move the label for WW II Valor in the PAcific to the hawaii location? (21.36,-157.95)
-UPDATE
-  label_points
-SET
-  point_geom = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-157.95 21.36)', 4326), 3857)),
-  label_point = ST_Multi(ST_Transform(ST_GeomFromText('POINT(-157.95 21.36)', 4326), 3857))
-WHERE
-  unit_code = 'VALR';
-  
-  
---- Shorten More Names
---"Charles Young Buffalo Soldiers National Monument"
-UPDATE
-  label_points
-SET
-  name = 'Charles Young Buffalo Soldiers'
-WHERE
-  name = 'Charles Young Buffalo Soldiers National Monument';
---"C&O Canal National Historical Park"
-UPDATE
-  label_points
-SET
-  name = 'C&O Canal'
-WHERE
-  name = 'C&O Canal National Historical Park';
---"Mary McLeod Bethune Council House National Historic Site"
-UPDATE
-  label_points
-SET
-  name = 'Mary McLeod Bethune Council House'
-WHERE
-  name = 'Mary McLeod Bethune Council House National Historic Site';
---"Lower Saint Croix National Scenic Riverway"
-UPDATE
-  label_points
-SET
-  name = 'Lower Saint Croix'
-WHERE
-  name = 'Lower Saint Croix National Scenic Riverway';
-  
---select * from label_points;
-
--- remove some extra polygons from Lake Mead
-UPDATE label_points
-SET poly_geom = COALESCE(
-  (SELECT geom
-   FROM
-     (SELECT (st_dump(poly_geom)).path, ((st_dump(poly_geom)).geom), (st_dump(poly_geom)).path @> ARRAY[5] AS path5
-      FROM label_points
-      WHERE unit_code = 'LAKE') a
-   WHERE path5), poly_geom)
-WHERE unit_code = 'LAKE';
