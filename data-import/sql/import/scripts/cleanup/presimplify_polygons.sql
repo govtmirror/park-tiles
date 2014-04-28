@@ -27,13 +27,13 @@ SELECT
   unit_code,
   poly_geom,
   ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_5,
-  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_6,
-  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_7,
-  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_8,
-  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_9,
-  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_10,
-  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_11,
-  ST_SIMPLIFY(poly_geom, zres(5)) as poly_geom_12
+  ST_SIMPLIFY(poly_geom, zres(6)) as poly_geom_6,
+  ST_SIMPLIFY(poly_geom, zres(7)) as poly_geom_7,
+  ST_SIMPLIFY(poly_geom, zres(8)) as poly_geom_8,
+  ST_SIMPLIFY(poly_geom, zres(9)) as poly_geom_9,
+  ST_SIMPLIFY(poly_geom, zres(10)) as poly_geom_10,
+  ST_SIMPLIFY(poly_geom, zres(11)) as poly_geom_11,
+  ST_SIMPLIFY(poly_geom, zres(12)) as poly_geom_12
 FROM
   label_points
 WHERE
