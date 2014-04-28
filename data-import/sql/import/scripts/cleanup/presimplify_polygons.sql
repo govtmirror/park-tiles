@@ -46,20 +46,3 @@ UPDATE label_points SET poly_geom_11 = ST_SIMPLIFY(poly_geom, zres(11));
 
 ALTER TABLE label_points ADD COLUMN poly_geom_12 geometry;
 UPDATE label_points SET poly_geom_12 = ST_SIMPLIFY(poly_geom, zres(12));
-
--- Query for TM2
-(SELECT
-    CASE
-      WHEN z(!scale_denominator!) = 5 THEN poly_geom_5
-      WHEN z(!scale_denominator!) = 6 THEN poly_geom_6
-      WHEN z(!scale_denominator!) = 7 THEN poly_geom_7
-      WHEN z(!scale_denominator!) = 8 THEN poly_geom_8
-      WHEN z(!scale_denominator!) = 9 THEN poly_geom_9
-      WHEN z(!scale_denominator!) = 10 THEN poly_geom_10
-      WHEN z(!scale_denominator!) = 11 THEN poly_geom_11
-      WHEN z(!scale_denominator!) = 11 THEN poly_geom_12
-      ELSE poly_geom end as poly_geom,
-minzoompoly,
-name
-FROM label_points WHERE poly_geom IS NOT NULL ORDER BY area DESC)
-AS data
