@@ -1,9 +1,9 @@
 DATABASE_NAME=data_import
 
-file_tbl_aggregated="./npmap_all_parks.sql"
-file_tbl_aggregated_updates="./npmap_all_parks_updates.sql"
-file_post_import="./tm2_post_import.sql"
-file_empty_to_null="./empty_to_null.sql"
+file_tbl_aggregated="./scripts/views/npmap_all_parks.sql"
+file_tbl_aggregated_updates="./scripts/views/npmap_all_parks_updates.sql"
+file_post_import="./scripts/tm2_post_import.sh"
+file_empty_to_null="./scripts/functions/empty_to_null.sql"
 tbl_park_attributes=park_attributes
 tbl_nps_regions=nps_regions
 tbl_nps_boundary=irma_nps_boundaries
@@ -86,5 +86,5 @@ echo "Table $tbl_aggregated created"
 
 # Run the park inset script
 echo "******** Run the park inset script ********"
-sudo -u postgres psql -d $DATABASE_NAME -f $file_post_import
+bash $file_post_import
 echo "Park Inset Script Complete"
