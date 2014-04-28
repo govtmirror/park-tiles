@@ -300,4 +300,8 @@ UPDATE label_points SET has_label = 'f' WHERE unit_code = 'GOGA';
 UPDATE label_points set has_label = 't' where has_label is null;
 
 
-
+-- Has Poly
+ALTER TABLE label_points ADD COLUMN has_poly boolean;
+UPDATE label_points SET has_poly = false
+WHERE unit_code in ('PRSF', 'NACC', 'MALL');
+UPDATE label_points set has_poly = true where has_poly is null;
